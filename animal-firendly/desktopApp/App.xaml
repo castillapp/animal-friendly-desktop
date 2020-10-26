@@ -2,8 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:desktopApp"
-             StartupUri="Views/StartLoginWindow.xaml">
+             xmlns:views="clr-namespace:DesktopApp.Views"
+             xmlns:viewmodels="clr-namespace:DesktopApp.ViewModels"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
+            <views:LoginView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

@@ -8,16 +8,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace DesktopApp.Views
 {
     /// <summary>
-    /// Lógica de interacción para StartLoginWindow.xaml
+    /// Lógica de interacción para LoginView.xaml
     /// </summary>
-    public partial class StartLoginWindow : Window
+    public partial class LoginView : UserControl
     {
-        public StartLoginWindow()
+        public LoginView()
         {
             InitializeComponent();
         }
