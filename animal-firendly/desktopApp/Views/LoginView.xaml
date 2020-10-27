@@ -5,8 +5,45 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DesktopApp.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="450" d:DesignWidth="800" Background="LightGreen" FontSize="16">
+    <Border Background="DarkGreen" CornerRadius="20" Margin="20">
+        <StackPanel Margin="20">
+            <Label Content="Login" HorizontalAlignment="Center" FontSize="30" Foreground="White"/>
+            <Separator/>
+            <Label Content="Usuari" Foreground="White"/>
+            <TextBox Background="LightSeaGreen" FontSize="20" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Password" Foreground="White"/>
+            <PasswordBox Name="pbPassword" Background="LightSeaGreen" FontSize="20"/>
+            <Button Content="Accedir" Margin="60 30" FontSize="20" Height="45" Command="{Binding LoginCommand}"
+                    Click="Login_Click" IsDefault="True"/>
+            <Label Content="{Binding LoginMessage}" HorizontalAlignment="Center" FontSize="28" Foreground="white" />
+        </StackPanel>
+    </Border>
+   
+    <!--<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <Label Height="30">Usuari</Label>
+            <TextBox Width="150" Height="20"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <Label Height="30">Contrassenya</Label>
+            <TextBox Width="150" Height="20"></TextBox>
+        </StackPanel>
+        <Button Grid.Column="3" Grid.Row="3" Width="200" Height="50">Accedir</Button>
+    </Grid>-->
 </UserControl>

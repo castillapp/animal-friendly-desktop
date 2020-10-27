@@ -7,7 +7,12 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
-            <views:LoginView/>
+            <views:LoginView LoginCommand="{Binding LoginCommand}"/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:UsuariWelcomeViewModel}">
+            <views:UsuariWelcomeView/>
+        </DataTemplate>
+        <!--resource dictionary
+        -->
     </Application.Resources>
 </Application>

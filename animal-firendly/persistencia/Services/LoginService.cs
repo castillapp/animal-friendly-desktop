@@ -14,11 +14,21 @@ namespace Persistencia.Services
         /// <param name="password">contrassenya de l'usuari</param>
         /// <returns>Informació de l'usuari, null si no existeix</returns>
         IUsuari FerLogin(string usuari, string password);
+
+        /// <summary>
+        /// Fa el LogOut de l'usuari
+        /// </summary>
+        void Logout();
     }
 
     public class LoginService : ILoginService
     {
         public IUsuari FerLogin(string usuari, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Logout()
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DesktopApp.State.Authenticators;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,8 +8,10 @@ namespace DesktopApp
     /// <summary>
     /// Classe encarregada de gestionar la injecció de dependencies
     /// </summary>
-    public class Bootstrap
+    public static class Bootstrap
     {
+        public static Authenticator Authenticator { get { return authenticator; } }
 
+        private static Authenticator authenticator = new Authenticator();
     }
 }

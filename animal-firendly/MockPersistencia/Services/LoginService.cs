@@ -15,5 +15,12 @@ namespace MockPersistencia.Services
             }
             return null;
         }
+
+        public bool LogOutFet { get; set; } = false;
+
+        public void Logout()
+        {
+            LogOutFet = true;
+        }
     }
 }

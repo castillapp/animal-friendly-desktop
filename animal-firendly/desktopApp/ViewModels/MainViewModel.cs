@@ -1,4 +1,6 @@
 ﻿using DesktopApp.Commands;
+using DesktopApp.State.Authenticators;
+using DesktopApp.State.Navigators;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,20 +11,15 @@ namespace DesktopApp.ViewModels
 {
     public class MainViewModel: BaseViewModel
     {
-        private BaseViewModel selectedViewModel;
-
-        public BaseViewModel SelectedViewModel
-        {
-            get { return selectedViewModel; }
-            set { selectedViewModel = value; OnPropertyChanged(nameof(SelectedViewModel)); }
-        }
+        public INavigator Navigator { get; set; } = new Navigator();
+        public ICommand UpdateViewCommand { get; }
+        public Authenticator Authenticator { get; }
 
         public MainViewModel()
         {
-            selectedViewModel = new LoginViewModel();
-            UpdateViewCommand = new UpdateViewCommand(this);
+            Authenticator = Bootstrap.Authenticator;
+            UpdateViewCommand = new UpdateViewCommand(Navigator, Bootstrap.Authenticator);
+            UpdateViewCommand.Execute(ViewType.Login);
         }
-
-        public ICommand UpdateViewCommand { get; set; }
     }
 }
