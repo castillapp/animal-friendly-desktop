@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopApp", "desktopApp\DesktopApp.csproj", "{86C2E5A0-0D44-4730-AC6E-330DF78CC898}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistencia", "persistencia\Persistencia.csproj", "{C0BBD278-773F-4F80-B6C4-CB2C79D336AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistencia", "persistencia\Persistencia.csproj", "{C0BBD278-773F-4F80-B6C4-CB2C79D336AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "tests\Tests.csproj", "{49013622-BC06-4A4A-8ED4-A6F81869B436}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopAppTests", "tests\DesktopAppTests.csproj", "{49013622-BC06-4A4A-8ED4-A6F81869B436}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockPersistencia", "MockPersistencia\MockPersistencia.csproj", "{959A9725-5D35-4D78-AF85-B77793D4F131}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockPersistencia", "MockPersistencia\MockPersistencia.csproj", "{959A9725-5D35-4D78-AF85-B77793D4F131}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F630654E-894A-43C3-BB1C-248482BDF703}"
 EndProject
