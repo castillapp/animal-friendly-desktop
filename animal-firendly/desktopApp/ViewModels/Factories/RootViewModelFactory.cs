@@ -10,7 +10,7 @@ namespace DesktopApp.ViewModels.Factories
     /// <summary>
     /// Interficie que ens retorna el ViewModel desitjat, passant-li un tipus de vista (viewType)
     /// </summary>
-    public interface IViewModelAbsractFactory
+    public interface IRootViewModelFactory
     {
         /// <summary>
         /// Mètode central que ens retorna la vista desitjada
@@ -26,7 +26,7 @@ namespace DesktopApp.ViewModels.Factories
     /// Si injectem directament els viewModels, no ho podem fer
     /// El mètode central es CreateViewModel
     /// </summary>
-    public class ViewModelAbstractFactory : IViewModelAbsractFactory {
+    public class RootViewModelFactory : IRootViewModelFactory {
 
         private readonly IAuthenticator authenticator;
         private readonly IViewModelFactory<LoginViewModel> loginViewModelFactory;
@@ -36,7 +36,7 @@ namespace DesktopApp.ViewModels.Factories
         /// </summary>
         /// <param name="viewModelAbsractFactory"></param>
         /// <param name="authenticator"></param>
-        public ViewModelAbstractFactory(IViewModelFactory<LoginViewModel> loginViewModelFactory, IAuthenticator authenticator)
+        public RootViewModelFactory(IViewModelFactory<LoginViewModel> loginViewModelFactory, IAuthenticator authenticator)
         {
             this.authenticator = authenticator;
             this.loginViewModelFactory = loginViewModelFactory;

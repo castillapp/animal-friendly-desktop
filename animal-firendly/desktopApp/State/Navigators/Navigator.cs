@@ -1,6 +1,7 @@
 ﻿using DesktopApp.Commands;
 using DesktopApp.Modules;
 using DesktopApp.ViewModels;
+using DesktopApp.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +13,7 @@ namespace DesktopApp.State.Navigators
     public interface INavigator : INotifyPropertyChanged
     {
         BaseViewModel CurrentViewModel { get; set;  }
-    }
-
-    public enum ViewType
-    {
-        Login,
-        Welcome,
-        Exit
+        ICommand UpdateCurrentViewModelCommand { get; }
     }
 
     public class Navigator : ObservableObject, INavigator
@@ -29,6 +24,13 @@ namespace DesktopApp.State.Navigators
         {
             get { return currentViewModel; }
             set { currentViewModel = value; OnPropertyChanged(nameof(CurrentViewModel)); }
+        }
+
+        public ICommand UpdateCurrentViewModelCommand { get; set; }
+
+        public Navigator(IRootViewModelFactory viewModelFactory)
+        {
+            UpdateCurrentViewModelCommand = new UpdateViewCommand(this, viewModelFactory);
         }
     }
 }

@@ -11,15 +11,12 @@ namespace DesktopApp.ViewModels
 {
     public class MainViewModel: BaseViewModel
     {
-        public INavigator Navigator { get; set; } = new Navigator();
-        public ICommand UpdateViewCommand { get; }
-        public Authenticator Authenticator { get; }
+        public INavigator Navigator { get; set; }
 
-        public MainViewModel()
+        public MainViewModel(INavigator navigator)
         {
-            Authenticator = Bootstrap.Authenticator;
-            UpdateViewCommand = new UpdateViewCommand(Navigator, Bootstrap.Authenticator);
-            UpdateViewCommand.Execute(ViewType.Login);
+            Navigator = navigator;
+            Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Login);
         }
     }
 }

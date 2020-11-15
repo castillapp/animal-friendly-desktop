@@ -37,9 +37,9 @@ namespace DesktopApp.State.Authenticators
     public class Authenticator : ObservableObject, IAuthenticator
     {
         private readonly ILoginService loginService;
-        public Authenticator()
+        public Authenticator(ILoginService loginService)
         {
-            loginService = new MockPersistencia.Services.LoginService();
+            this.loginService = loginService;
         }
 
         /// <summary>

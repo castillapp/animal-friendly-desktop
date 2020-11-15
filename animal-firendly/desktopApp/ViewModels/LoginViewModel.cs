@@ -15,11 +15,9 @@ namespace DesktopApp.ViewModels
     {
         public Usuari Usuari { get; set; }
 
-        public LoginViewModel()
+        public LoginViewModel(IAuthenticator authenticator)
         {
-            Authenticator loginService = Bootstrap.Authenticator;
-            Navigator navigator = new Navigator();
-            LoginCommand = new LoginCommand(this, loginService,navigator);
+            LoginCommand = new LoginCommand(this, authenticator);
         }
 
         public string UserName { get; set; }

@@ -1,6 +1,7 @@
 ﻿using DesktopApp.State.Authenticators;
 using DesktopApp.State.Navigators;
 using DesktopApp.ViewModels;
+using DesktopApp.ViewModels.Factories;
 using DesktopApp.Views;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,13 @@ namespace DesktopApp.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        //private MainViewModel viewModel;
-        private INavigator navigator;
-        private IAuthenticator authenticator;
+        private readonly INavigator navigator;
+        private readonly IRootViewModelFactory viewModelFactory;
 
-        public UpdateViewCommand(INavigator navigator, IAuthenticator authenticator)
+        public UpdateViewCommand(INavigator navigator, IRootViewModelFactory viewModelFactory)
         {
-            //this.viewModel = viewModel;
             this.navigator = navigator;
-            this.authenticator = authenticator;
+            this.viewModelFactory = viewModelFactory;
         }
 
         public bool CanExecute(object parameter)
@@ -33,31 +32,13 @@ namespace DesktopApp.Commands
         {
             if(parameter is ViewType)
             {
-                ViewType view = (ViewType)parameter;
-                switch (view)
+                if (parameter is ViewType)
                 {
-                    case ViewType.Login:
-                        navigator.CurrentViewModel = new LoginViewModel();
-                        break;
-                    case ViewType.Welcome:
-                        navigator.CurrentViewModel = new UsuariWelcomeViewModel();
-                        break;
-                    case ViewType.Exit:
-                        authenticator.Logout();
-                        System.Windows.Application.Current.Shutdown();
-                        break;
-                    default:
-                        break;
+                    ViewType viewType = (ViewType)parameter;
+
+                    navigator.CurrentViewModel = viewModelFactory.CreateViewModel(viewType);
                 }
             }
-
-            //if(parameter.ToString() == "Login")
-            //{
-            //    viewModel.SelectedViewModel = new LoginViewModel();
-            //}else if(parameter.ToString() == "Usuari")
-            //{
-            //    viewModel.SelectedViewModel = new LoginViewModel();
-            //}
         }
     }
 }

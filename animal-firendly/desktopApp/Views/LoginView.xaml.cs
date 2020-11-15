@@ -18,12 +18,13 @@ namespace DesktopApp.Views
     /// </summary>
     public partial class LoginView : UserControl
     {
+        public static readonly DependencyProperty LoginCommandProperty =
+            DependencyProperty.Register("LoginCommand", typeof(ICommand), typeof(LoginView), new PropertyMetadata(null));
+
         public ICommand LoginCommand {
             get { return (ICommand)GetValue(LoginCommandProperty); }
             set { SetValue(LoginCommandProperty, value); }
         }
-
-        public static readonly DependencyProperty LoginCommandProperty = DependencyProperty.Register("LoginCommand", typeof(ICommand), typeof(LoginView), new PropertyMetadata(null));
 
         public LoginView()
         {
@@ -32,8 +33,11 @@ namespace DesktopApp.Views
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            var pass = pbPassword.Password;
-            LoginCommand?.Execute(pass);
+            if(LoginCommand != null)
+            {
+                var pass = pbPassword.Password;
+                LoginCommand?.Execute(pass);
+            }
         }
     }
 }

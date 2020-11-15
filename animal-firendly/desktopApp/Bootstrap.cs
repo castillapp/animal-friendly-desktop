@@ -12,6 +12,8 @@ using System.Threading;
 using DesktopApp.ViewModels.Factories;
 using System.Windows.Input;
 using DesktopApp.Commands;
+using System.Windows;
+using MockServices = MockPersistencia.Services;
 
 namespace DesktopApp
 {
@@ -35,36 +37,34 @@ namespace DesktopApp
             var builder = new ContainerBuilder();
 
             //Serveis
-            builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
-
-            //Commands
-            builder.RegisterType<UpdateViewCommand>().AsSelf().SingleInstance();
+            //builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
+            builder.RegisterType<MockServices.LoginService>().As<ILoginService>().SingleInstance();
 
             //Components
-            builder.RegisterType<Authenticator>().As<IAuthenticator>().SingleInstance();
+            builder.RegisterType<Authenticator>().As<IAuthenticator>().InstancePerLifetimeScope();
             builder.RegisterType<Navigator>().As<INavigator>().InstancePerLifetimeScope();
 
             //Factories i ViewModel
-            builder.RegisterType<ViewModelAbstractFactory>().As<IViewModelAbsractFactory>().SingleInstance();
+            builder.RegisterType<RootViewModelFactory>().As<IRootViewModelFactory>().SingleInstance();
             builder.RegisterType<LoginViewModelFactory>().As<IViewModelFactory<LoginViewModel>>().SingleInstance();
 
             //Main ViewModel
             builder.RegisterType<MainViewModel>().AsSelf().InstancePerLifetimeScope();
 
             //Main Window
-            builder.Register<MainWindow>(f => new MainWindow(f.Resolve<MainViewModel>()));
+            builder.Register<MainWindow>(f => new MainWindow(f.Resolve<MainViewModel>())).AsSelf();
 
             container = builder.Build();
         }
 
-        public MainViewModel GetMainViewModel(out IScope newScope)
-        {
-            var scope = container.BeginLifetimeScope();
-            newScope = new Scope(scope);
-            return scope.Resolve<MainViewModel>();
-        }
+        //public MainViewModel GetMainViewModel(out IScope newScope)
+        //{
+        //    var scope = container.BeginLifetimeScope();
+        //    newScope = new Scope(scope);
+        //    return scope.Resolve<MainViewModel>();
+        //}
 
-        public MainWindow GetMainViewModel()
+        public Window GetMainView()
         {
             return container.Resolve<MainWindow>();
         }

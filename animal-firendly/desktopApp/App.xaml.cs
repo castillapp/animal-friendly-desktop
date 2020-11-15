@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DesktopApp;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,12 @@ namespace desktopApp
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var container = new Bootstrap();
+            var window = container.GetMainView();
+            window.Show();
+            base.OnStartup(e);
+        }
     }
 }

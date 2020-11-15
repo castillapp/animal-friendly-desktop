@@ -14,7 +14,7 @@
             <TextBox Background="LightSeaGreen" FontSize="20" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Password" Foreground="White"/>
             <PasswordBox Name="pbPassword" Background="LightSeaGreen" FontSize="20"/>
-            <Button Content="Accedir" Margin="60 30" FontSize="20" Height="45" Command="{Binding LoginCommand}"
+            <Button Content="Accedir" Margin="60 30" FontSize="20" Command="{Binding LoginCommand}"
                     Click="Login_Click" IsDefault="True"/>
             <Label Content="{Binding LoginMessage}" HorizontalAlignment="Center" FontSize="28" Foreground="white" />
         </StackPanel>

@@ -10,18 +10,15 @@ namespace DesktopApp.ViewModels.Factories
     public class LoginViewModelFactory : IViewModelFactory<LoginViewModel>
     {
         private readonly IAuthenticator authenticator;
-        private readonly INavigator navigator;
 
-        public LoginViewModelFactory(IAuthenticator authenticator,
-            INavigator navigator)
+        public LoginViewModelFactory(IAuthenticator authenticator)
         {
             this.authenticator = authenticator;
-            this.navigator = navigator;
         }
 
         public LoginViewModel CreateViewModel()
         {
-            return new LoginViewModel(authenticator,navigator);
+            return new LoginViewModel(authenticator);
         }
     }
 }

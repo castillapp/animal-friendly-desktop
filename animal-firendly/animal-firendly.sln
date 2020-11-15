@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockPersistencia", "MockPer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F630654E-894A-43C3-BB1C-248482BDF703}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestApp", "ConsoleTestApp\ConsoleTestApp.csproj", "{8985285B-4D2C-468A-9CFB-50C47387E8EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{959A9725-5D35-4D78-AF85-B77793D4F131}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{959A9725-5D35-4D78-AF85-B77793D4F131}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{959A9725-5D35-4D78-AF85-B77793D4F131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8985285B-4D2C-468A-9CFB-50C47387E8EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8985285B-4D2C-468A-9CFB-50C47387E8EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8985285B-4D2C-468A-9CFB-50C47387E8EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8985285B-4D2C-468A-9CFB-50C47387E8EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +48,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{49013622-BC06-4A4A-8ED4-A6F81869B436} = {F630654E-894A-43C3-BB1C-248482BDF703}
 		{959A9725-5D35-4D78-AF85-B77793D4F131} = {F630654E-894A-43C3-BB1C-248482BDF703}
+		{8985285B-4D2C-468A-9CFB-50C47387E8EF} = {F630654E-894A-43C3-BB1C-248482BDF703}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7599061-6748-45D3-8015-D9FBED54D929}
