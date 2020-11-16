@@ -46,7 +46,12 @@ namespace DesktopApp
 
             //Factories i ViewModel
             builder.RegisterType<RootViewModelFactory>().As<IRootViewModelFactory>().SingleInstance();
-            builder.RegisterType<LoginViewModelFactory>().As<IViewModelFactory<LoginViewModel>>().SingleInstance();
+
+            builder.RegisterType<UsuariWelcomeViewModelFactory>().As<IViewModelFactory<UsuariWelcomeViewModel>>().SingleInstance();
+            builder.Register<LoginViewModelFactory>(f =>
+                new LoginViewModelFactory(f.Resolve<IAuthenticator>(),
+                new ViewModelFactoryRenavigator<UsuariWelcomeViewModel>(f.Resolve<INavigator>(),f.Resolve<IViewModelFactory<UsuariWelcomeViewModel>>()))                
+            ).As<IViewModelFactory<LoginViewModel>>();
 
             //Main ViewModel
             builder.RegisterType<MainViewModel>().AsSelf().InstancePerLifetimeScope();

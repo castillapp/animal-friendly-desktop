@@ -13,13 +13,13 @@ namespace DesktopApp.Commands
     {
         private IAuthenticator autenticador;
         private LoginViewModel loginViewModel;
-        //private INavigator navigator;
+        private IRenavigator renavigator;
 
-        public LoginCommand(LoginViewModel loginViewModel, IAuthenticator autenticador)
+        public LoginCommand(LoginViewModel loginViewModel, IAuthenticator autenticador, IRenavigator renavigator)
         {
             this.autenticador = autenticador;
             this.loginViewModel = loginViewModel;
-            //this.navigator = navigator;
+            this.renavigator = renavigator;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -35,6 +35,11 @@ namespace DesktopApp.Commands
 
             var result = autenticador.Login(loginViewModel.UserName, parameter?.ToString());
             loginViewModel.LoginMessage = result;
+
+            if (autenticador.Logejat)
+            {
+                renavigator.Renavigate();
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DesktopApp.Commands;
 using DesktopApp.State.Authenticators;
 using DesktopApp.State.Navigators;
+using DesktopApp.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,13 +14,15 @@ namespace DesktopApp.ViewModels
     {
         public INavigator Navigator { get; set; }
         public IAuthenticator Authenticator { get; }
+        public ICommand UpdateCurrentViewModelCommand { get; }
 
-        public MainViewModel(INavigator navigator, IAuthenticator authenticator)
+        public MainViewModel(INavigator navigator, IAuthenticator authenticator, IRootViewModelFactory viewModelFactory)
         {
             Navigator = navigator;
             Authenticator = authenticator;
 
-            Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Login);
+            UpdateCurrentViewModelCommand = new UpdateViewCommand(navigator, viewModelFactory);
+            UpdateCurrentViewModelCommand.Execute(ViewType.Login);
         }
     }
 }

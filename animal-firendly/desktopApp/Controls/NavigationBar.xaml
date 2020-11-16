@@ -13,8 +13,13 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Animal Friendly"/>
-        <Grid Grid.Row="1">
+        <TextBlock Grid.Row="0" Padding="10" FontSize="28" Foreground="White"
+                   Text="Animal Friendly"
+                   Background="{StaticResource BrushPrimary1}"/>
+        <Grid Grid.Row="1" RenderOptions.EdgeMode="Aliased" Background="{StaticResource BrushPrimary2}">
+            <Grid.Resources>
+                <!--<Style TargetType="Button" BasedOn="{StaticResource BotoNavegacio}"-->
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
@@ -22,7 +27,12 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Sortir" Visibility="Visible" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static nav:ViewType.Exit}"/>
+            
+            <Button Grid.Column="0" Content="Sortir" 
+                  Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static nav:ViewType.Exit}"/>
+            <Button Grid.Column="1" Content="Home"
+                    Command="{Binding UpdateCurrentViewModelCommand}"
+                    CommandParameter="{x:Static nav:ViewType.Welcome}"/>
         </Grid>
     </Grid>
 </UserControl>

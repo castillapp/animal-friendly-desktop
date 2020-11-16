@@ -15,9 +15,9 @@ namespace DesktopApp.ViewModels
     {
         public Usuari Usuari { get; set; }
 
-        public LoginViewModel(IAuthenticator authenticator)
+        public LoginViewModel(IAuthenticator authenticator, IRenavigator renavigator)
         {
-            LoginCommand = new LoginCommand(this, authenticator);
+            LoginCommand = new LoginCommand(this, authenticator, renavigator);
         }
 
         public string UserName { get; set; }

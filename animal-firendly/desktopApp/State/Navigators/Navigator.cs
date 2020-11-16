@@ -13,7 +13,6 @@ namespace DesktopApp.State.Navigators
     public interface INavigator : INotifyPropertyChanged
     {
         BaseViewModel CurrentViewModel { get; set;  }
-        ICommand UpdateCurrentViewModelCommand { get; }
     }
 
     public class Navigator : ObservableObject, INavigator
@@ -24,13 +23,6 @@ namespace DesktopApp.State.Navigators
         {
             get { return currentViewModel; }
             set { currentViewModel = value; OnPropertyChanged(nameof(CurrentViewModel)); }
-        }
-
-        public ICommand UpdateCurrentViewModelCommand { get; set; }
-
-        public Navigator(IRootViewModelFactory viewModelFactory)
-        {
-            UpdateCurrentViewModelCommand = new UpdateViewCommand(this, viewModelFactory);
         }
     }
 }
