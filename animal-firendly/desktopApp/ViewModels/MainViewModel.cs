@@ -12,10 +12,13 @@ namespace DesktopApp.ViewModels
     public class MainViewModel: BaseViewModel
     {
         public INavigator Navigator { get; set; }
+        public IAuthenticator Authenticator { get; }
 
-        public MainViewModel(INavigator navigator)
+        public MainViewModel(INavigator navigator, IAuthenticator authenticator)
         {
             Navigator = navigator;
+            Authenticator = authenticator;
+
             Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Login);
         }
     }

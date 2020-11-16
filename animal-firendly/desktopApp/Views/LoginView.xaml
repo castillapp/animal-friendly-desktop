@@ -5,20 +5,81 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DesktopApp.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="LightGreen" FontSize="16">
-    <Border Background="DarkGreen" CornerRadius="20" Margin="20">
+             d:DesignHeight="450" d:DesignWidth="800" FontSize="24">
+
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Resources/login-background.jpg" Stretch="UniformToFill" Opacity="0.5"/>
+    </UserControl.Background>
+    <Border Margin="25" Padding="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Opacity="0.9"
+            BorderBrush="{StaticResource BrushPrimary2}" BorderThickness="3" CornerRadius="10">
+        <!--<Border.Effect>
+            <DropShadowEffect Color="Gray" BlurRadius="10" Opacity="0.9"/>
+        </Border.Effect>-->
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock  HorizontalAlignment="Center" Grid.Row="0" FontSize="48" Text="Animal Friendly"/>
+            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Margin="0 10" FontSize="18" FontWeight="Thin"
+                        Text="Gestor del centre"/>
+
+            <Grid Grid.Row="2" Margin="0 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="Label" Width="auto"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Usuari"/>
+                    <TextBox Grid.Column="1" Margin="20 0 0 0" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="Label" Width="auto"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Contrassenya"/>
+                    <PasswordBox Grid.Column="1" Margin="20 0 0 0" Name="pbPassword"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0 10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Content="Accedir"
+                        Command="{Binding LoginCommand}"
+                        Click="Login_Click" IsDefault="True"/>
+                    <Label Margin="0 10" Grid.Row="1" Content="{Binding LoginMessage}" HorizontalAlignment="Center"/>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Border>
+
+    <!--<Border Background="DarkGreen" CornerRadius="20" Margin="20">
         <StackPanel Margin="20">
             <Label Content="Login" HorizontalAlignment="Center" FontSize="30" Foreground="White"/>
             <Separator/>
             <Label Content="Usuari" Foreground="White"/>
             <TextBox Background="LightSeaGreen" FontSize="20" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Password" Foreground="White"/>
-            <PasswordBox Name="pbPassword" Background="LightSeaGreen" FontSize="20"/>
+           
             <Button Content="Accedir" Margin="60 30" FontSize="20" Command="{Binding LoginCommand}"
                     Click="Login_Click" IsDefault="True"/>
             <Label Content="{Binding LoginMessage}" HorizontalAlignment="Center" FontSize="28" Foreground="white" />
         </StackPanel>
-    </Border>
+    </Border>-->
    
     <!--<Grid>
         <Grid.ColumnDefinitions>
