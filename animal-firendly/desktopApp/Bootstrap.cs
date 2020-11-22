@@ -14,6 +14,8 @@ using System.Windows.Input;
 using DesktopApp.Commands;
 using System.Windows;
 using MockServices = MockPersistencia.Services;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace DesktopApp
 {
@@ -35,6 +37,8 @@ namespace DesktopApp
         private void Init()
         {
             var builder = new ContainerBuilder();
+
+            var configuration = GetAppConfig();
 
             //Serveis
             //builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
@@ -62,13 +66,19 @@ namespace DesktopApp
             container = builder.Build();
         }
 
-        //public MainViewModel GetMainViewModel(out IScope newScope)
-        //{
-        //    var scope = container.BeginLifetimeScope();
-        //    newScope = new Scope(scope);
-        //    return scope.Resolve<MainViewModel>();
-        //}
+        /// <summary>
+        /// Agafa l'arxiu de configuració de la app
+        /// </summary>
+        /// <returns>arxiu de configuració</returns>
+        private NameValueCollection GetAppConfig()
+        {
+            return ConfigurationManager.AppSettings;
+        }
 
+        /// <summary>
+        /// Retorna la finestra principal del programa
+        /// </summary>
+        /// <returns>finestra principal del programa</returns>
         public Window GetMainView()
         {
             return container.Resolve<MainWindow>();

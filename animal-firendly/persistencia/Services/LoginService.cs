@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Persistencia.Services
 {
-    public interface ILoginService
+    public interface ILoginService : IBaseService
     {
         /// <summary>
         /// Fa el login de l'usuari
@@ -13,7 +13,7 @@ namespace Persistencia.Services
         /// <param name="usuari">nom de l'usuari</param>
         /// <param name="password">contrassenya de l'usuari</param>
         /// <returns>Informació de l'usuari, null si no existeix</returns>
-        IUsuari FerLogin(string usuari, string password);
+        ITreballador FerLogin(string usuari, string password);
 
         /// <summary>
         /// Fa el LogOut de l'usuari
@@ -21,9 +21,9 @@ namespace Persistencia.Services
         void Logout();
     }
 
-    public class LoginService : ILoginService
+    public class LoginService : BaseService, ILoginService
     {
-        public IUsuari FerLogin(string usuari, string password)
+        public ITreballador FerLogin(string usuari, string password)
         {
             throw new NotImplementedException();
         }

@@ -32,6 +32,16 @@ namespace DesktopApp.State.Authenticators
         /// Fa el logout
         /// </summary>
         void Logout();
+
+        /// <summary>
+        /// Retorna el tipus d'usuari que és, per adpatar les accions de la app al que pot fer
+        /// </summary>
+        TipusTreballador TipusUsuari { get; }
+
+        /// <summary>
+        /// Retorna el nom de l'usuari, per personalitzar la UI
+        /// </summary>
+        string NomUsuari { get; }
     }
 
     public class Authenticator : ObservableObject, IAuthenticator
@@ -45,14 +55,14 @@ namespace DesktopApp.State.Authenticators
         /// <summary>
         /// Tipus de dades Usuari
         /// </summary>
-        private IUsuari currentUsuari;
+        private ITreballador currentUsuari;
 
         /// <summary>
         /// S'implementa un ObservableObject que exposa un event al que els altres elements
         /// s'hi poden subscriure per saber si hi ha hagut un canvi.
         /// Quan es fa un login s'actualitza l'usuari resultant
         /// </summary>
-        public IUsuari CurrentUsuari
+        public ITreballador CurrentUsuari
         {
             get { return currentUsuari; }
             private set
@@ -60,6 +70,7 @@ namespace DesktopApp.State.Authenticators
                 currentUsuari = value;
                 OnPropertyChanged(nameof(Logejat));
                 OnPropertyChanged(nameof(CurrentUsuari));
+                OnPropertyChanged(nameof(TipusUsuari));
             }
         }
 
@@ -68,9 +79,19 @@ namespace DesktopApp.State.Authenticators
         /// </summary>
         public bool Logejat { get { return CurrentUsuari != null; } }
 
+        public TipusTreballador TipusUsuari
+        {
+            get
+            {
+                return currentUsuari?.TipusTreballador == null ? TipusTreballador.Convidat : currentUsuari.TipusTreballador;
+            }
+        }
+
+        public string NomUsuari { get { return currentUsuari?.Nom; } }
+
         public string Login(string usuari, string pass)
         {
-            if(String.IsNullOrWhiteSpace(usuari) || String.IsNullOrWhiteSpace(pass))
+            if (String.IsNullOrWhiteSpace(usuari) || String.IsNullOrWhiteSpace(pass))
             {
                 return "L'usuari o contrassenya estan buits";
             }

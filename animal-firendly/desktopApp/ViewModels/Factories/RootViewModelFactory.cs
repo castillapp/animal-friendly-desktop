@@ -30,16 +30,21 @@ namespace DesktopApp.ViewModels.Factories
 
         private readonly IAuthenticator authenticator;
         private readonly IViewModelFactory<LoginViewModel> loginViewModelFactory;
+        private readonly IViewModelFactory<UsuariWelcomeViewModel> usuariWelcomeViewModel;
 
         /// <summary>
         /// Injectem tots els viewModels i altres dependencies
         /// </summary>
         /// <param name="viewModelAbsractFactory"></param>
         /// <param name="authenticator"></param>
-        public RootViewModelFactory(IViewModelFactory<LoginViewModel> loginViewModelFactory, IAuthenticator authenticator)
+        public RootViewModelFactory(
+            IViewModelFactory<LoginViewModel> loginViewModelFactory,
+            IViewModelFactory<UsuariWelcomeViewModel> usuariWelcomeViewModel,
+            IAuthenticator authenticator)
         {
             this.authenticator = authenticator;
             this.loginViewModelFactory = loginViewModelFactory;
+            this.usuariWelcomeViewModel = usuariWelcomeViewModel;
         }
 
         public BaseViewModel CreateViewModel(ViewType viewType)
@@ -49,11 +54,11 @@ namespace DesktopApp.ViewModels.Factories
                 case ViewType.Login:
                     return loginViewModelFactory.CreateViewModel();
                 case ViewType.Welcome:
-                    return new UsuariWelcomeViewModel();
-                //case ViewType.Exit:
-                //    authenticator.Logout();
-                //    System.Windows.Application.Current.Shutdown();
-                //    return null;
+                    return usuariWelcomeViewModel.CreateViewModel();
+                case ViewType.Exit:
+                    authenticator.Logout();
+                    System.Windows.Application.Current.Shutdown();
+                    return null;
                 default:
                     throw new ArgumentException("ViewType no té un ViewModel");
             }

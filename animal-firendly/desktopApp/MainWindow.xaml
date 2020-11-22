@@ -26,29 +26,4 @@
         </Grid>
         <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}"/>
     </Grid>
-    <!--<Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <ContentControl Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="5"  Content="{Binding SelectedViewModel}"/>
-
-        <DockPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Background="LightGray">
-            <StackPanel>
-                <Button Content="Login" Visibility="Collapsed" Command="{Binding UpdateViewCommand}" CommandParameter="Login"/>
-                <Button Content="Sortir" Visibility="Visible" Command="{Binding AppCommand}" CommandParameter="Exit"/>
-            </StackPanel>
-        </DockPanel>
-    </Grid>-->
 </Window>

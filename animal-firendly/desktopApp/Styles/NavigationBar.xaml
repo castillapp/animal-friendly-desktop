@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:SimpleTrader.WPF.Styles">
 
-    <Style x:Key="NavButton" TargetType="RadioButton">
+    <!--Botons Generics-->
+    <Style x:Key="BotoNavegacio" TargetType="RadioButton">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Padding" Value="10 5"/>
         <Setter Property="FontSize" Value="18"/>
@@ -40,5 +41,35 @@
             </EventTrigger>
         </Style.Triggers>
     </Style>
-    
+
+    <!--Botons administrador-->
+    <Style TargetType="RadioButton" x:Key="BotonsAdmin" BasedOn="{StaticResource BotoNavegacio}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Authenticator.TipusUsuari, UpdateSourceTrigger=PropertyChanged}" Value="Administrador">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Botons veterinari-->
+    <Style TargetType="RadioButton" x:Key="BotonsAuxiliar" BasedOn="{StaticResource BotoNavegacio}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Authenticator.TipusUsuari, UpdateSourceTrigger=PropertyChanged}" Value="Veterinari">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Botons auxiliar-->
+    <Style TargetType="RadioButton" x:Key="BotonsVeterinari" BasedOn="{StaticResource BotoNavegacio}">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Authenticator.TipusUsuari, UpdateSourceTrigger=PropertyChanged}" Value="Auxiliar">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

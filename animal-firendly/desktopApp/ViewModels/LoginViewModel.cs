@@ -13,7 +13,7 @@ namespace DesktopApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public Usuari Usuari { get; set; }
+        public Treballador Usuari { get; set; }
 
         public LoginViewModel(IAuthenticator authenticator, IRenavigator renavigator)
         {
