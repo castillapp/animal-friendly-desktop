@@ -5,24 +5,18 @@
     <!-- Botons Acceptar / Cancelar-->
     <Style x:Key="DataOk" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Content" Value="Accepta"/>
-        <Setter Property="Visibility" Value="Collapsed"/>
-        <Style.Triggers>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding TipusAccioModificacio, UpdateSourceTrigger=PropertyChanged}" Value="Crea"/>
-                    <Condition Binding="{Binding TipusAccioModificacio, UpdateSourceTrigger=PropertyChanged}" Value="Elimina"/>
-                    <Condition Binding="{Binding TipusAccioModificacio, UpdateSourceTrigger=PropertyChanged}" Value="Modifica"/>
-                </MultiDataTrigger.Conditions>
-                <Setter Property="Visibility" Value="Visible"/>
-            </MultiDataTrigger>
+        <Style.Triggers >
+            <DataTrigger Binding="{Binding TipusAccioModificacio, UpdateSourceTrigger=PropertyChanged}" Value="Llegeix">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
     <!-- Botons Enrere-->
     <Style x:Key="DataCancel" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Content" Value="Cancel·la"/>
-        <Style.Triggers>
+        <Style.Triggers >
             <DataTrigger Binding="{Binding TipusAccioModificacio, UpdateSourceTrigger=PropertyChanged}" Value="Llegeix">
-                <Setter Property="Content" Value="Enrere"/>
+                <Setter Property="Content" Value="Tornar"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

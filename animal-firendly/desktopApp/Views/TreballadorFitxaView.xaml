@@ -5,8 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:constData="clr-namespace:DesktopApp.ConstantsData"
              xmlns:local="clr-namespace:DesktopApp.Views"
+             xmlns:models="clr-namespace:Persistencia.Models;assembly=Persistencia"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="tipusTreballador" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="models:TipusTreballador"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>    
+    
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -99,7 +110,9 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" Text="Rol"/>
-                <TextBox Grid.Column="1" Margin="20 0 0 0" Text="{Binding TipusTreballador, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Grid.Column="1" Margin="20 0 0 0" Text="{Binding TipusTreballador, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding Source={StaticResource tipusTreballador}}"/>
+
             </Grid>
         </Grid>
 
@@ -110,19 +123,19 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" Content="Cancelar" Margin="5 0"
+            <Button Grid.Column="2" Margin="5 0"
                     Command="{Binding AccioModificacio}"
                     CommandParameter="{x:Static constData:TipusOperacio.Cancela}">
-                <!--<Button.Resources>
+                <Button.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource DataCancel}"/>
-                </Button.Resources>-->
+                </Button.Resources>
             </Button>
-            <Button Grid.Column="1" Content="Acceptar" Margin="5 0"
+            <Button Grid.Column="1" Margin="5 0"
                     Command="{Binding AccioModificacio}"
                     CommandParameter="{x:Static constData:TipusOperacio.Accepta}">
-                <!--<Button.Resources>
+                <Button.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource DataOk}"/>
-                </Button.Resources>-->
+                </Button.Resources>
             </Button>
         </Grid>
     </Grid>

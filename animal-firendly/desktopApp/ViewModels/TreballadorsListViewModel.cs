@@ -44,7 +44,7 @@ namespace DesktopApp.ViewModels
         /// </summary>
         public void Carregar()
         {
-            treballadors = administrarTreballadorsService.GetAll();
+            Treballadors = administrarTreballadorsService.GetAll();
         }
 
         /// <summary>
@@ -57,13 +57,27 @@ namespace DesktopApp.ViewModels
             {
                 //Casos que obriran la fitxa
                 case TipusOperacio.Crea:
+                    var treballadorViewModel = treballadorFitxaModelFactory.CreateViewModel();
+                    treballadorViewModel.ObreFitxa(this, new Treballador(), tipusOperacio);
+                    navigator.CurrentViewModel = treballadorViewModel;
+                    break;
                 case TipusOperacio.Modifica:
                 case TipusOperacio.Llegeix:
-                    var treballadorViewModel = treballadorFitxaModelFactory.CreateViewModel();
+                    if(TreballadorSeleccionat == null)
+                    {
+                        BaseViewModel.MessageViewModel.DisplayMessage("No s'ha seleccionat cap treballador per mostrar o editar");
+                        break;
+                    }
+                    treballadorViewModel = treballadorFitxaModelFactory.CreateViewModel();
                     treballadorViewModel.ObreFitxa(this, TreballadorSeleccionat, tipusOperacio);
                     navigator.CurrentViewModel = treballadorViewModel;
                     break;
                 case TipusOperacio.Elimina:
+                    if (TreballadorSeleccionat == null)
+                    {
+                        BaseViewModel.MessageViewModel.DisplayMessage("No s'ha seleccionat cap treballador per eliminar");
+                        break;
+                    }
                     administrarTreballadorsService.Borra(TreballadorSeleccionat);
                     Carregar();
                     break;

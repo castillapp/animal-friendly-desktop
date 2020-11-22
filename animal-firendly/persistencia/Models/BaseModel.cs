@@ -11,7 +11,11 @@ namespace Persistencia.Models
     /// </summary>
     public interface IBaseModel : INotifyPropertyChanged
     {
-
+        /// <summary>
+        /// Verifica que el model en qüestió tingui tots els camps mínims i siguin correctes
+        /// </summary>
+        /// <returns></returns>
+        bool IsValid();
     }
 
     /// <summary>
@@ -21,6 +25,8 @@ namespace Persistencia.Models
     public abstract class BaseModel : IBaseModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public abstract bool IsValid();
 
         /// <summary>
         /// Notifica que ha canviat el valor d'una propietat

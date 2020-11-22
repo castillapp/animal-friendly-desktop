@@ -49,13 +49,28 @@ namespace Persistencia.Models
             }
             set
             {
-                IdTipusTreballador = (int)TipusTreballador;
+                IdTipusTreballador = (int)value;
             }
         }
 
         public Treballador()
         {
+            TipusTreballador = TipusTreballador.Convidat;
+        }
 
+        public override bool IsValid()
+        {
+            if(String.IsNullOrWhiteSpace(DNI) ||
+              String.IsNullOrWhiteSpace(Nom) ||
+              String.IsNullOrWhiteSpace(Cognoms) ||
+              String.IsNullOrWhiteSpace(Naixement) ||
+              String.IsNullOrWhiteSpace(Email) ||
+              TipusTreballador == TipusTreballador.Convidat ||
+              TipusTreballador == TipusTreballador.Voluntari)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

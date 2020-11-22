@@ -1,4 +1,5 @@
-﻿using DesktopApp.Modules;
+﻿using DesktopApp.ConstantsData;
+using DesktopApp.Modules;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,5 +13,6 @@ namespace DesktopApp.ViewModels
     /// </summary>
     public class BaseViewModel : ObservableObject
     {
+        public static MessageViewModel MessageViewModel { get; } = new MessageViewModel();
     }
 }

@@ -12,7 +12,7 @@ namespace DesktopApp.State.Navigators
 {
     public interface INavigator : INotifyPropertyChanged
     {
-        BaseViewModel CurrentViewModel { get; set;  }
+        BaseViewModel CurrentViewModel { get; set; }
     }
 
     public class Navigator : ObservableObject, INavigator
@@ -22,7 +22,12 @@ namespace DesktopApp.State.Navigators
         public BaseViewModel CurrentViewModel
         {
             get { return currentViewModel; }
-            set { currentViewModel = value; OnPropertyChanged(nameof(CurrentViewModel)); }
+            set
+            {
+                BaseViewModel.MessageViewModel.HideMessage();
+                currentViewModel = value;
+                OnPropertyChanged(nameof(CurrentViewModel));
+            }
         }
     }
 }

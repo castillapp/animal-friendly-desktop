@@ -1,6 +1,7 @@
 ﻿using DesktopApp.Commands;
 using DesktopApp.ConstantsData;
 using DesktopApp.State.Navigators;
+using Persistencia.Exceptions;
 using Persistencia.Models;
 using Persistencia.Services;
 using System;
@@ -14,10 +15,13 @@ namespace DesktopApp.ViewModels
     {
         private readonly IAdministrarTreballadorsService administrarTreballadorsService;
         private readonly INavigator navigator;
+        private readonly List<KeyValuePair<String, int>> tipusTreballadors;
         private Treballador treballador;
         private TreballadorsListViewModel treballadorsListViewModel;
 
         private TipusOperacio tipusAccioModificacio;
+
+        public List<KeyValuePair<string, int>> TipusTreballadors { get { return tipusTreballadors; } }
 
         public TipusOperacio TipusAccioModificacio
         {
@@ -73,6 +77,11 @@ namespace DesktopApp.ViewModels
             this.administrarTreballadorsService = administrarTreballadorsService;
             this.navigator = navigator;
             AccioModificacio = new AccioModificacioModelCommand<TreballadorFitxaViewModel>(this);
+
+            tipusTreballadors = new List<KeyValuePair<string, int>>();
+            tipusTreballadors.Add(new KeyValuePair<string, int>("Administrador", (int)TipusTreballador.Administrador));
+            tipusTreballadors.Add(new KeyValuePair<string, int>("Veterinari", (int)TipusTreballador.Veterinari));
+            tipusTreballadors.Add(new KeyValuePair<string, int>("Auxiliar", (int)TipusTreballador.Auxiliar));
         }
 
         public void ObreFitxa(TreballadorsListViewModel llista, Treballador treballador, TipusOperacio modificacio)
@@ -88,17 +97,25 @@ namespace DesktopApp.ViewModels
         /// <param name="tipusOperacio">Tipus d'operacio a fer</param>
         public void FerModificacio(TipusOperacio tipusOperacio)
         {
-            if (tipusOperacio == ConstantsData.TipusOperacio.Accepta)
+            if (tipusOperacio == TipusOperacio.Accepta)
             {
-                GuardarAPersistencia();
+                try
+                {
+                    GuardarAPersistencia();
+                }
+                catch (PersistenciaBaseException ex)
+                {
+                    MessageViewModel.DisplayErrorMessage(ex);
+                    return;
+                }
             }
-
             treballadorsListViewModel.Carregar();
             navigator.CurrentViewModel = treballadorsListViewModel;
         }
 
         private void GuardarAPersistencia()
         {
+
             switch (TipusAccioModificacio)
             {
                 case TipusOperacio.Crea:

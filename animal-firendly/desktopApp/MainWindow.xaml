@@ -10,6 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -24,6 +25,18 @@
             </Grid.Style>
             <controls:NavigationBar/>
         </Grid>
-        <ContentControl Grid.Row="1" Content="{Binding Navigator.CurrentViewModel}"/>
+        <Grid Grid.Row="1">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers >
+                        <DataTrigger Binding="{Binding MessageViewModel.TipusMessage, UpdateSourceTrigger=PropertyChanged}" Value="None">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <controls:MessageView/>
+        </Grid>
+        <ContentControl Grid.Row="2" Content="{Binding Navigator.CurrentViewModel}"/>
     </Grid>
 </Window>

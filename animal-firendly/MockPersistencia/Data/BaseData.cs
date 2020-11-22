@@ -6,15 +6,19 @@ using System.Text;
 
 namespace MockPersistencia.Data
 {
-    public abstract class BaseData<Key,ModelType> where ModelType : BaseModel
+    public abstract class BaseData<Key, ModelType> where ModelType : BaseModel
     {
-        private static Dictionary<Key, ModelType> rows;
-        private static int IntIdCounter = 0;
+        private Dictionary<Key, ModelType> rows = new Dictionary<Key, ModelType>();
+        protected static Key CurrentId { get; private set; }
+        protected abstract Func<Key, Key> IncreaseId { get; }
+        protected abstract Func<Key, ModelType, ModelType> SetKeyToRow { get; }
+        protected abstract Func<ModelType, ModelType> Clone { get; }
 
-        protected int GenerateIntId()
+        private Key GetNextId()
         {
-            IntIdCounter++;
-            return IntIdCounter;
+            var id = IncreaseId(CurrentId);
+            CurrentId = id;
+            return CurrentId;
         }
 
         public BaseData()
@@ -25,14 +29,17 @@ namespace MockPersistencia.Data
 
         protected abstract void InitData();
 
-        public void Insert(Key key, ModelType row)
+        public void Insert(ModelType row)
         {
-            rows.Add(key, row);
+            var id = GetNextId();
+            row = SetKeyToRow(id, row);
+            rows.Add(id, row);
         }
 
         public ModelType Get(Key key)
         {
-            return rows[key];
+            var item = rows[key];
+            return Clone(item);
         }
 
         public void Delete(Key key)
@@ -42,13 +49,12 @@ namespace MockPersistencia.Data
 
         public List<ModelType> ListAll()
         {
-            return rows.Values.ToList();
+            return rows.Values.Select<ModelType, ModelType>(f => Clone(f)).ToList();
         }
 
-        public void Update(Key key,ModelType row)
+        public void Update(Key key, ModelType row)
         {
-            var item = Get(key);
-            item = row;
+            rows[key] = row;
         }
     }
 }
