@@ -30,14 +30,11 @@ namespace DesktopApp.Commands
 
         public void Execute(object parameter)
         {
-            if(parameter is ViewType)
+            if (parameter is ViewType)
             {
-                if (parameter is ViewType)
-                {
-                    ViewType viewType = (ViewType)parameter;
+                ViewType viewType = (ViewType)parameter;
 
-                    navigator.CurrentViewModel = viewModelFactory.CreateViewModel(viewType);
-                }
+                navigator.CurrentViewModel = viewModelFactory.CreateViewModel(viewType);
             }
         }
     }

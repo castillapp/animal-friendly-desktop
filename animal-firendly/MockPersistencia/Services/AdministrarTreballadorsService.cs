@@ -24,6 +24,11 @@ namespace MockPersistencia.Services
             return MockDatabase.Treballadors.ListAll();
         }
 
+        public Treballador GetTreballador(int idTreballador)
+        {
+            return MockDatabase.Treballadors.Get(idTreballador);
+        }
+
         public void Modifica(Treballador treballador)
         {
             MockDatabase.Treballadors.Update(treballador.Id, treballador);

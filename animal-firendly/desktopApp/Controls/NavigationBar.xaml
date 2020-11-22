@@ -34,7 +34,7 @@
                     CommandParameter="{x:Static nav:ViewType.Welcome}"/>
             <RadioButton Grid.Column="1" Content="Gestió Treballadors"
                     Command="{Binding UpdateCurrentViewModelCommand}"
-                    CommandParameter="{x:Static nav:ViewType.Welcome}">
+                    CommandParameter="{x:Static nav:ViewType.LlistarTreballadors}">
                 <RadioButton.Resources>
                     <Style TargetType="RadioButton" BasedOn="{StaticResource BotonsAdmin}"/>
                 </RadioButton.Resources>

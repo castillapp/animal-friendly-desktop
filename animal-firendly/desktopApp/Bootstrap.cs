@@ -43,6 +43,7 @@ namespace DesktopApp
             //Serveis
             //builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
             builder.RegisterType<MockServices.LoginService>().As<ILoginService>().SingleInstance();
+            builder.RegisterType<MockServices.AdministrarTreballadorsService>().As<IAdministrarTreballadorsService>().SingleInstance();
 
             //Components
             builder.RegisterType<Authenticator>().As<IAuthenticator>().InstancePerLifetimeScope();
@@ -56,6 +57,8 @@ namespace DesktopApp
                 new LoginViewModelFactory(f.Resolve<IAuthenticator>(),
                 new ViewModelFactoryRenavigator<UsuariWelcomeViewModel>(f.Resolve<INavigator>(),f.Resolve<IViewModelFactory<UsuariWelcomeViewModel>>()))                
             ).As<IViewModelFactory<LoginViewModel>>();
+            builder.RegisterType<TreballadorsListViewModelFactory>().As<IViewModelFactory<TreballadorsListViewModel>>().SingleInstance();
+            builder.RegisterType<TreballadorFitxaViewModelFactory>().As<IViewModelFactory<TreballadorFitxaViewModel>>().SingleInstance();
 
             //Main ViewModel
             builder.RegisterType<MainViewModel>().AsSelf().InstancePerLifetimeScope();

@@ -8,6 +8,8 @@ namespace DesktopApp.State.Navigators
     {
         Login,
         Welcome,
+        LlistarTreballadors,
+        FitxaTreballador,
         Exit
     }
 }

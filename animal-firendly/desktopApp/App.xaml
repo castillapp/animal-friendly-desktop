@@ -10,6 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Common.xaml"/>
                 <ResourceDictionary Source="/Styles/NavigationBar.xaml"/>
+                <ResourceDictionary Source="/Styles/ControlsGenerics.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
@@ -17,6 +18,12 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:UsuariWelcomeViewModel}">
                 <views:UsuariWelcomeView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:TreballadorsListViewModel}">
+                <views:TreballadorsListView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:TreballadorFitxaViewModel}">
+                <views:TreballadorFitxaView/>
             </DataTemplate>
         </ResourceDictionary>
 

@@ -13,6 +13,8 @@ namespace Persistencia.Services
         /// <returns>llistat de treballadors</returns>
         List<Treballador> GetAll();
 
+        Treballador GetTreballador(int idTreballador);
+
         /// <summary>
         /// Borra un treballador concret
         /// </summary>
@@ -45,6 +47,11 @@ namespace Persistencia.Services
         }
 
         public List<Treballador> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Treballador GetTreballador(int idTreballador)
         {
             throw new NotImplementedException();
         }

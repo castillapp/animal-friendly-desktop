@@ -30,7 +30,8 @@ namespace DesktopApp.ViewModels.Factories
 
         private readonly IAuthenticator authenticator;
         private readonly IViewModelFactory<LoginViewModel> loginViewModelFactory;
-        private readonly IViewModelFactory<UsuariWelcomeViewModel> usuariWelcomeViewModel;
+        private readonly IViewModelFactory<UsuariWelcomeViewModel> usuariWelcomeViewModelFactory;
+        private readonly IViewModelFactory<TreballadorsListViewModel> treballadorsListViewModelFactory;
 
         /// <summary>
         /// Injectem tots els viewModels i altres dependencies
@@ -39,12 +40,14 @@ namespace DesktopApp.ViewModels.Factories
         /// <param name="authenticator"></param>
         public RootViewModelFactory(
             IViewModelFactory<LoginViewModel> loginViewModelFactory,
-            IViewModelFactory<UsuariWelcomeViewModel> usuariWelcomeViewModel,
+            IViewModelFactory<UsuariWelcomeViewModel> usuariWelcomeViewModelFactory,
+            IViewModelFactory<TreballadorsListViewModel> treballadorsListViewModelFactory,
             IAuthenticator authenticator)
         {
             this.authenticator = authenticator;
             this.loginViewModelFactory = loginViewModelFactory;
-            this.usuariWelcomeViewModel = usuariWelcomeViewModel;
+            this.usuariWelcomeViewModelFactory = usuariWelcomeViewModelFactory;
+            this.treballadorsListViewModelFactory = treballadorsListViewModelFactory;
         }
 
         public BaseViewModel CreateViewModel(ViewType viewType)
@@ -54,7 +57,9 @@ namespace DesktopApp.ViewModels.Factories
                 case ViewType.Login:
                     return loginViewModelFactory.CreateViewModel();
                 case ViewType.Welcome:
-                    return usuariWelcomeViewModel.CreateViewModel();
+                    return usuariWelcomeViewModelFactory.CreateViewModel();
+                case ViewType.LlistarTreballadors:
+                    return treballadorsListViewModelFactory.CreateViewModel();
                 case ViewType.Exit:
                     authenticator.Logout();
                     System.Windows.Application.Current.Shutdown();

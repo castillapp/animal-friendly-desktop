@@ -9,6 +9,13 @@ namespace MockPersistencia.Data
     public abstract class BaseData<Key,ModelType> where ModelType : BaseModel
     {
         private static Dictionary<Key, ModelType> rows;
+        private static int IntIdCounter = 0;
+
+        protected int GenerateIntId()
+        {
+            IntIdCounter++;
+            return IntIdCounter;
+        }
 
         public BaseData()
         {
