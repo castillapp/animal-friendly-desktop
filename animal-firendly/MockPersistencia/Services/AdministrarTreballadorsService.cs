@@ -8,7 +8,7 @@ using System.Text;
 
 namespace MockPersistencia.Services
 {
-    public class AdministrarTreballadorsService : IAdministrarTreballadorsService
+    public class AdministrarTreballadorsService : IAdministrarTreballadorsService, IMockServices
     {
         public void Borra(Treballador treballador)
         {

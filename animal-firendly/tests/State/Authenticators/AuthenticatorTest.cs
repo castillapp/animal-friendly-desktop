@@ -3,6 +3,7 @@ using DesktopApp.State.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace DesktopAppTests.State.Authenticators
 {
@@ -12,15 +13,15 @@ namespace DesktopAppTests.State.Authenticators
         [TestMethod]
         public void Login_CredencialsIncorrectes_ReturnsCredencialsIncorrectes()
         {
-            var authenticator = new Authenticator();
+            var authenticator = Bootstrap.GetAuthenticator();
 
             //Usuari que no existeix
-            var missatge = authenticator.Login("Usuari", "Incorrecte");
+            var missatge = authenticator.Login("1F", "Incorrecte");
             Assert.AreEqual(missatge, "L'usuari no existeix o la contrassenya no és correcte");
             Assert.IsTrue(!authenticator.Logejat);
 
             //Password incorrecte
-            missatge = authenticator.Login("Test", "12345");
+            missatge = authenticator.Login("1F", "12345");
             Assert.AreEqual(missatge, "L'usuari no existeix o la contrassenya no és correcte");
             Assert.IsTrue(!authenticator.Logejat);
         }
@@ -28,9 +29,9 @@ namespace DesktopAppTests.State.Authenticators
         [TestMethod]
         public void Login_CredencialsCorrectes_ReturnsTrue()
         {
-            var authenticator = new Authenticator();
+            var authenticator = Bootstrap.GetAuthenticator();
 
-            var missatge = authenticator.Login("test", "1234");
+            var missatge = authenticator.Login("1F", "1234");
             Assert.AreEqual(missatge, "Usuari loguejat!");
             Assert.IsTrue(authenticator.Logejat);
         }
@@ -38,7 +39,7 @@ namespace DesktopAppTests.State.Authenticators
         [TestMethod]
         public void Login_CredencialsBuides_ReturnsCredencialsBuides()
         {
-            var authenticator = new Authenticator();
+            var authenticator = Bootstrap.GetAuthenticator();
 
             //Usuari buit
             var missatge = authenticator.Login(" ", "1234");
@@ -51,7 +52,7 @@ namespace DesktopAppTests.State.Authenticators
             Assert.IsTrue(!authenticator.Logejat);
 
             //Pass nul
-            missatge = authenticator.Login("Test", null);
+            missatge = authenticator.Login("1F", null);
             Assert.AreEqual(missatge, "L'usuari o contrassenya estan buits");
             Assert.IsTrue(!authenticator.Logejat);
 
@@ -64,17 +65,10 @@ namespace DesktopAppTests.State.Authenticators
         [TestMethod]
         public void Login_Logout_TancaConnexio()
         {
-            /*NOTA: Amb la configuració actual és molt complicat fer aquest test,
-             * ja que el Servei de login (LoginService) Mock de la persistència 
-             * guarda en una propietat si s'ha fet logout.
-             * Per fer aquesta proba caldria accedir al propi servei, que és una variable interna
-             * priivada de Authenticator.
-             * Una vegada implementat la Inversio de Controal amb Injecció de dependències, podem
-             * instanciar una classe estàtica de Mock LoginService (singleton) i accedir-hi des
-             * de fora el Authenticator.
-            */
-
-            Assert.IsTrue(true);
+            var authenticator = Bootstrap.GetAuthenticator();
+            var loginService = Bootstrap.GetLoginService();
+            authenticator.Logout();
+            Assert.IsTrue(loginService.LogOutFet);
         }
     }
 }

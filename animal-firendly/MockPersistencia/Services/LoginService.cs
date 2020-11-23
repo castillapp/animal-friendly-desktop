@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MockPersistencia.Services
 {
-    public class LoginService : Persistencia.Services.ILoginService
+    public class LoginService : Persistencia.Services.ILoginService, IMockServices
     {
         public ITreballador FerLogin(string usuari, string password)
         {

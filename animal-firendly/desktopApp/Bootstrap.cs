@@ -13,7 +13,7 @@ using DesktopApp.ViewModels.Factories;
 using System.Windows.Input;
 using DesktopApp.Commands;
 using System.Windows;
-using MockServices = MockPersistencia.Services;
+using AppServices = MockPersistencia.Services;
 using System.Configuration;
 using System.Collections.Specialized;
 
@@ -42,8 +42,8 @@ namespace DesktopApp
 
             //Serveis
             //builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
-            builder.RegisterType<MockServices.LoginService>().As<ILoginService>().SingleInstance();
-            builder.RegisterType<MockServices.AdministrarTreballadorsService>().As<IAdministrarTreballadorsService>().SingleInstance();
+            builder.RegisterType<AppServices.LoginService>().As<ILoginService>().SingleInstance();
+            builder.RegisterType<AppServices.AdministrarTreballadorsService>().As<IAdministrarTreballadorsService>().SingleInstance();
 
             //Components
             builder.RegisterType<Authenticator>().As<IAuthenticator>().InstancePerLifetimeScope();
