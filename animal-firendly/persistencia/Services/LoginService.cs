@@ -1,4 +1,5 @@
-﻿using Persistencia.Models;
+﻿using Persistencia.Connections;
+using Persistencia.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,14 +24,24 @@ namespace Persistencia.Services
 
     public class LoginService : BaseService, ILoginService
     {
+        public LoginService(IServerConnection connexio, IInterpretORM interpretORM) : base(connexio, interpretORM)
+        {
+
+        }
+
         public ITreballador FerLogin(string usuari, string password)
         {
-            throw new NotImplementedException();
+            var res = Connexio.SendRequest("login:" + usuari + ":" + password);
+            if (res.Contains("validat"))
+            {
+
+            }
+            return null;
         }
 
         public void Logout()
         {
-            throw new NotImplementedException();
+            Connexio.Disconnect();
         }
     }
 }

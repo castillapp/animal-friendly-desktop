@@ -2,76 +2,115 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Persistencia.Connections
 {
-
+    /// <summary>
+    /// Classe que gestiona la connexió i envia peticions i rep respostes.
+    /// Implementa IDisposable, quan es fa un "dispose" de la classe, aquesta ja tancará la connexió
+    /// si aquesta está oberta.
+    /// </summary>
     public interface IServerConnection : IDisposable
     {
-
+        ///// <summary>
+        ///// Connecta amb la BBDD
+        ///// </summary>
+        //void Connect();
+        /// <summary>
+        /// Desconnecta de la BBDD
+        /// </summary>
+        void Disconnect();
+        /// <summary>
+        /// Envia un missatge al servidor i rep la seva resposta (raw)
+        /// </summary>
+        /// <param name="message">Missatge/comanda de text que s'envia al servidor</param>
+        /// <returns>Resposta del servidor en text pla (raw)</returns>
+        string SendRequest(string message);
+        /// <summary>
+        /// Métode asíncron per enviar un missatge al servidor i rebre la seva resposta (raw)
+        /// </summary>
+        /// <param name="message">Missatge/comanda de text que s'envia al servidor</param>
+        /// <returns>Resposta del servidor en text pla (raw), asíncron</returns>
+        Task<string> SendRequestAsync(string message);
     }
 
     public class ServerConnection : IServerConnection
     {
-        private readonly IPEndPoint direccioServidor;
-        private readonly Socket socket;
-        private readonly IRequestEncoder encoder;
-        private readonly int bufferSize;
+        private readonly string ipServidor;
+        private readonly int portServidor;
+        private TcpClient client;
+        private StreamReader reader;
+        private Stream stream;
 
-        public ServerConnection(IRequestEncoder encoder, string ipServidor, string portServidor, int bufferSize)
+        public ServerConnection(string ipServidor, int portServidor)
         {
- 
-            var ipAddress = IPAddress.Parse(ipServidor);
-            direccioServidor = new IPEndPoint(ipAddress, Int32.Parse(portServidor));
+            this.ipServidor = ipServidor;
+            this.portServidor = portServidor;
+            Connect();
+        }
 
+        private void Connect()
+        {
             try
             {
-                socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                client = new TcpClient(ipServidor, portServidor);
+                stream = client.GetStream();
+                reader = new StreamReader(stream);
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-            this.encoder = encoder;
-            this.bufferSize = bufferSize;
         }
 
-        public void Connect()
+        public async Task<string> SendRequestAsync(string message)
         {
-            socket.Connect(direccioServidor);
+            try
+            {
+                byte[] data = Encoding.UTF8.GetBytes(message+"\n");
+                stream.Write(data, 0, data.Length);
+                return await reader.ReadLineAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public T Query<T>(string message) where T : BaseModel
+        public string SendRequest(string message)
         {
-            socket.Send(encoder.EncodeRequest(message));
-
-            var buffer = new byte[bufferSize];
-
-            int bytesReceived = socket.Receive(buffer);
-
-            var result = encoder.DecodeResponse<T>(buffer);
-
-            return result;                
+            try
+            {
+                byte[] data = Encoding.UTF8.GetBytes(message + "\n");
+                stream.Write(data, 0, data.Length);
+                return reader.ReadLine();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public void Disconnect()
         {
-            socket.Send(encoder.EncodeRequest("X"));
-            socket.Shutdown(SocketShutdown.Both);
-            socket.Close();
+            //X es la comanda per avisar al servidor que es tanca la connexio
+            SendRequest("X");
+            client.Close();
         }
 
         public void Dispose()
         {
-            if (socket.Connected)
+            if (client.Connected)
             {
                 Disconnect();
             }
-            socket.Dispose();
+            reader.Dispose();
+            stream.Dispose();
+            client.Dispose();
         }
     }
 }

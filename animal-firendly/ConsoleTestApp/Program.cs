@@ -2,15 +2,72 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.IO;
+using System.Linq;
 
 namespace ConsoleTestApp
 {
+
+    abstract class A
+    {
+        static public int MyProperty { get; set; }
+    }
+
+    class B : A
+    {
+        
+    }
+
+    class C : A
+    {
+
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            Run();
+            Tcp();
         }
+
+        public static void Tcp()
+        {
+            byte[] buffer = new byte[1024];
+
+            try
+            {
+                Int32 port = 9900;
+                TcpClient client = new TcpClient("192.168.2.200", port);
+                NetworkStream stream = client.GetStream();
+
+                var reader = new StreamReader(stream);
+
+                byte[] data = Encoding.UTF8.GetBytes("login:11111111A:admin0\n");
+                stream.Write(data, 0, data.Length);
+                var a = reader.ReadLine();
+
+                data = Encoding.UTF8.GetBytes("pertany:11111111A\n");
+                data = Encoding.UTF8.GetBytes("insani:234:0:50:test:9/9:8/8:7/7:au:\n");
+                stream.Write(data, 0, data.Length);
+
+                var res = reader.ReadLine();
+
+
+                var res2 = System.Text.RegularExpressions.Regex.Match(res, @"(?<=\[)(.*?)(?=\])").Value;
+                var llistatCamps = res2.Substring(1, res2.Length - 2);
+                var camps = System.Text.RegularExpressions.Regex.Split(llistatCamps, @"""\s*,\s*""").Select(f=> f.Split(":").Select(y=>y.Trim()));
+                //String responseData = String.Empty;
+                //Int32 bytes = stream.Read(data, 0, data.Length);
+                //responseData = System.Text.Encoding.UTF8.GetString(data, 0, bytes);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 
         public static void Run()
         {
@@ -18,7 +75,9 @@ namespace ConsoleTestApp
 
             try
             {
-                IPAddress ipAddress = IPAddress.Parse("192.168.2.199");
+                IPAddress ipAddress = IPAddress.Parse("192.168.2.200");
+                //IPAddress ipAddress = IPAddress.Parse("170.253.52.113");
+
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 9900);
 
                 Socket sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -34,6 +93,15 @@ namespace ConsoleTestApp
 
                     int bytesRec = sender.Receive(buffer);
                     var returnMsg = Encoding.UTF8.GetString(buffer, 0, bytesRec);
+
+                    //select 
+                    //msg = Encoding.UTF8.GetBytes("seltre:11111111A\n");
+                    msg = Encoding.UTF8.GetBytes("selani:x\n");
+                    bytesSent = sender.Send(msg);
+                    bytesRec = sender.Receive(buffer);
+                    returnMsg = Encoding.UTF8.GetString(buffer, 0, bytesRec);
+
+                    //tanquem connexio
 
                     msg = Encoding.UTF8.GetBytes("X\n");
                     bytesSent = sender.Send(msg);

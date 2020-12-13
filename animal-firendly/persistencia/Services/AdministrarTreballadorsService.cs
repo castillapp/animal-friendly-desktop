@@ -1,6 +1,8 @@
-﻿using Persistencia.Models;
+﻿using Persistencia.Connections;
+using Persistencia.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Persistencia.Services
@@ -11,15 +13,9 @@ namespace Persistencia.Services
         /// llista tots els treballadors
         /// </summary>
         /// <returns>llistat de treballadors</returns>
-        List<Treballador> GetAll();
+        IEnumerable<Treballador> GetAll();
 
-        Treballador GetTreballador(int idTreballador);
-
-        /// <summary>
-        /// Borra un treballador concret
-        /// </summary>
-        /// <param name="treballador">treballador a borrar</param>
-        void Borra(Treballador treballador);
+        Treballador GetTreballador(string dni);
 
         /// <summary>
         /// Actualitza les dades d'un treballador
@@ -31,34 +27,82 @@ namespace Persistencia.Services
         /// Crea un nou treballador
         /// </summary>
         /// <param name="treballador">nou treballador</param>
-        void Crea(Treballador treballador);
+        /// <returns>Treballador nou creat</returns>
+        Treballador Crea(Treballador treballador);
     }
 
     public class AdministrarTreballadorsService : BaseService, IAdministrarTreballadorsService
     {
-        public void Borra(Treballador treballador)
+        private const string PREFIX_TAULA_TREBALLADORS = "tre";
+        private const string PREFIX_TAULA_PERTANY = "per";
+        private readonly IAdministrarCentreService infoCentreService;
+
+        public AdministrarTreballadorsService(IServerConnection connexio, IInterpretORM interpretORM,
+            IAdministrarCentreService infoCentreService) : base(connexio, interpretORM)
         {
-            throw new NotImplementedException();
+            this.infoCentreService = infoCentreService;
         }
 
-        public void Crea(Treballador treballador)
+        public Treballador Crea(Treballador treballador)
         {
-            throw new NotImplementedException();
+            var commands = InterpretORM.CodificarInsert(treballador);
+            Connexio.SendRequest(GetNomComanda(TipusOperacio.Insert, PREFIX_TAULA_TREBALLADORS) + commands);
+
+            var treballadors = GetAll();
+
+            int nouId = GetLastId(treballadors);
+
+            return treballadors.Single(f => f.Id == nouId);
         }
 
-        public List<Treballador> GetAll()
+        public IEnumerable<Treballador> GetAll()
         {
-            throw new NotImplementedException();
+            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_TREBALLADORS) + "x");
+            return InterpretORM.DecodificarObjectes<Treballador>(res);
         }
 
-        public Treballador GetTreballador(int idTreballador)
+        public Treballador GetTreballador(string dni)
         {
-            throw new NotImplementedException();
+            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_TREBALLADORS) + dni);
+            var treballadors = InterpretORM.DecodificarObjectes<Treballador>(res);
+            return treballadors.Single();
         }
 
         public void Modifica(Treballador treballador)
         {
-            throw new NotImplementedException();
+            var commands = InterpretORM.CodificarUpdate(treballador);
+            ExecutaFullUpdate(commands, PREFIX_TAULA_TREBALLADORS);
+        }
+
+        public void AssignaTreballador(Treballador treballador, Centre centre)
+        {
+            var pertany = new TreballadorPertanyACentre()
+            {
+                IdTreballador = treballador.Id,
+                IdCentre = centre.Id
+            };
+            var commands = InterpretORM.CodificarInsert(pertany);
+            Connexio.SendRequest(GetNomComanda(TipusOperacio.Insert, PREFIX_TAULA_PERTANY) + commands);
+        }
+
+        public IEnumerable<Centre> LlistaCentresAssignats(Treballador treballador)
+        {
+            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_PERTANY) + treballador.DNI);
+            var pertanys = InterpretORM.DecodificarObjectes<TreballadorPertanyACentre>(res);
+
+            var centres = infoCentreService.GetAll();
+            var centresTreballador = new List<Centre>();
+
+            foreach (var pertany in pertanys)
+            {
+                var centreTreb = centres.FirstOrDefault(f => f.Id == pertany.IdCentre);
+                if (centreTreb != null)
+                {
+                    centresTreballador.Add(centreTreb);
+                }
+            }
+
+            return centresTreballador;
         }
     }
 }
