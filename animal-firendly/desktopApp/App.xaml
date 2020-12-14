@@ -25,6 +25,9 @@
             <DataTemplate DataType="{x:Type viewmodels:TreballadorFitxaViewModel}">
                 <views:TreballadorFitxaView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:TreballadorAssignatsViewModel}">
+                <views:TreballadorAssignatsView/>
+            </DataTemplate>
         </ResourceDictionary>
 
     </Application.Resources>

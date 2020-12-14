@@ -46,8 +46,7 @@ namespace ConsoleTestApp
                 stream.Write(data, 0, data.Length);
                 var a = reader.ReadLine();
 
-                data = Encoding.UTF8.GetBytes("pertany:11111111A\n");
-                data = Encoding.UTF8.GetBytes("insani:234:0:50:test:9/9:8/8:7/7:au:\n");
+                data = Encoding.UTF8.GetBytes("instre:403:dni:n:cog:pass:667:mail:58:2\n");
                 stream.Write(data, 0, data.Length);
 
                 var res = reader.ReadLine();

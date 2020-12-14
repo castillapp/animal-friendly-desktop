@@ -10,19 +10,23 @@ namespace DesktopApp.ViewModels.Factories
     {
         private readonly IAdministrarTreballadorsService administrarTreballadorsService;
         private readonly IViewModelFactory<TreballadorFitxaViewModel> treballadorFitxaModelFactory;
+        private readonly IViewModelFactory<TreballadorAssignatsViewModel> treballadorAssignatModelFactory;
         private readonly INavigator navigator;
 
-        public TreballadorsListViewModelFactory(IAdministrarTreballadorsService administrarTreballadorsService, 
-            IViewModelFactory<TreballadorFitxaViewModel> treballadorFitxaModelFactory, INavigator navigator)
+        public TreballadorsListViewModelFactory(IAdministrarTreballadorsService administrarTreballadorsService,
+            IViewModelFactory<TreballadorFitxaViewModel> treballadorFitxaModelFactory,
+            IViewModelFactory<TreballadorAssignatsViewModel> treballadorAssignatModelFactory,
+            INavigator navigator)
         {
             this.administrarTreballadorsService = administrarTreballadorsService;
             this.treballadorFitxaModelFactory = treballadorFitxaModelFactory;
+            this.treballadorAssignatModelFactory = treballadorAssignatModelFactory;
             this.navigator = navigator;
         }
 
         public TreballadorsListViewModel CreateViewModel()
         {
-            return new TreballadorsListViewModel(administrarTreballadorsService, treballadorFitxaModelFactory, navigator);
+            return new TreballadorsListViewModel(administrarTreballadorsService, treballadorFitxaModelFactory, treballadorAssignatModelFactory, navigator);
         }
     }
 }

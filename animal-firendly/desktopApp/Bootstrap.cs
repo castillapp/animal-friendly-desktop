@@ -13,7 +13,7 @@ using DesktopApp.ViewModels.Factories;
 using System.Windows.Input;
 using DesktopApp.Commands;
 using System.Windows;
-using AppServices = MockPersistencia.Services;
+using AppServices = Persistencia.Services;
 using System.Configuration;
 using System.Collections.Specialized;
 
@@ -40,10 +40,18 @@ namespace DesktopApp
 
             var configuration = GetAppConfig();
 
+            //Connexio
+            builder.RegisterType<Persistencia.Connections.InterpretORM>().As<Persistencia.Connections.IInterpretORM>().SingleInstance();
+            builder.Register(f => 
+                new Persistencia.Connections.ServerConnection(ConfigurationManager.AppSettings["ServerIP"], int.Parse(ConfigurationManager.AppSettings["ServerPort"]))
+            ).As<Persistencia.Connections.IServerConnection>().SingleInstance();
+
             //Serveis
             //builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
             builder.RegisterType<AppServices.LoginService>().As<ILoginService>().SingleInstance();
             builder.RegisterType<AppServices.AdministrarTreballadorsService>().As<IAdministrarTreballadorsService>().SingleInstance();
+            builder.RegisterType<AppServices.AdministrarCentreService>().As<IAdministrarCentreService>().SingleInstance();
+            builder.RegisterType<AppServices.GestionarAnimalsService>().As<IGestionarAnimalsService>().SingleInstance();
 
             //Components
             builder.RegisterType<Authenticator>().As<IAuthenticator>().InstancePerLifetimeScope();
@@ -55,10 +63,11 @@ namespace DesktopApp
             builder.RegisterType<UsuariWelcomeViewModelFactory>().As<IViewModelFactory<UsuariWelcomeViewModel>>().SingleInstance();
             builder.Register<LoginViewModelFactory>(f =>
                 new LoginViewModelFactory(f.Resolve<IAuthenticator>(),
-                new ViewModelFactoryRenavigator<UsuariWelcomeViewModel>(f.Resolve<INavigator>(),f.Resolve<IViewModelFactory<UsuariWelcomeViewModel>>()))                
+                new ViewModelFactoryRenavigator<UsuariWelcomeViewModel>(f.Resolve<INavigator>(), f.Resolve<IViewModelFactory<UsuariWelcomeViewModel>>()))
             ).As<IViewModelFactory<LoginViewModel>>();
             builder.RegisterType<TreballadorsListViewModelFactory>().As<IViewModelFactory<TreballadorsListViewModel>>().SingleInstance();
             builder.RegisterType<TreballadorFitxaViewModelFactory>().As<IViewModelFactory<TreballadorFitxaViewModel>>().SingleInstance();
+            builder.RegisterType<TreballadorAssignatsViewModelFactory>().As<IViewModelFactory<TreballadorAssignatsViewModel>>().SingleInstance();
 
             //Main ViewModel
             builder.RegisterType<MainViewModel>().AsSelf().InstancePerLifetimeScope();

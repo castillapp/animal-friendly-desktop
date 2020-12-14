@@ -45,7 +45,6 @@ namespace MockPersistencia.Data
                         Email = t.Email,
                         Id = t.Id,
                         IdTipusTreballador = t.IdTipusTreballador,
-                        Naixement = t.Naixement,
                         Telefon = t.Telefon,
                         Sou = t.Sou
                     };
@@ -61,9 +60,8 @@ namespace MockPersistencia.Data
                 Nom = "albert",
                 Cognoms = "castilla",
                 DNI = "1F",
-                Naixement = "9/9/1988",
                 Email = "albertcastilla@ioc.cat",
-                IdTipusTreballador = 0
+                TipusTreballador = TipusTreballador.Administrador 
             };
             Insert(treballador);
 
@@ -72,9 +70,8 @@ namespace MockPersistencia.Data
                 Nom = "miquel",
                 Cognoms = "castilla",
                 DNI = "2F",
-                Naixement = "9/6/1988",
                 Email = "miquel@ioc.cat",
-                IdTipusTreballador = 1
+                TipusTreballador = TipusTreballador.Auxiliar
             };
             Insert(treballador);
 
@@ -83,9 +80,8 @@ namespace MockPersistencia.Data
                 Nom = "francesc",
                 Cognoms = "batlle",
                 DNI = "3F",
-                Naixement = "4/2/1988",
                 Email = "francesc@ioc.cat",
-                IdTipusTreballador = 2
+                TipusTreballador = TipusTreballador.Veterinari
             };
             Insert(treballador);
 
@@ -94,9 +90,8 @@ namespace MockPersistencia.Data
                 Nom = "Anna",
                 Cognoms = "moreno",
                 DNI = "4F",
-                Naixement = "9/9/1966",
                 Email = "moreno@ioc.cat",
-                IdTipusTreballador = 0
+                TipusTreballador = TipusTreballador.Administrador
             };
             Insert(treballador);
         }

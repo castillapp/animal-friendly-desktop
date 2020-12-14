@@ -12,28 +12,28 @@ namespace Persistencia.Models
 
     public interface ICentre : IBaseModel
     {
-        [ModelProperty(0, "id_centre", true)]
         int Id { get; set; }
-
-        [ModelProperty(1, "nom_centre")]
         string Nom { get; set; }
-
-        [ModelProperty(2, "direccio")]
         string Direccio { get; set; }
-
-        [ModelProperty(3, "telefon")]
         string Telefon { get; set; }
-
-        [ModelProperty(4, "email")]
         string Email { get; set; }
     }
 
     public class Centre : BaseModel, ICentre
     {
+        [ModelProperty(0, "id_centre", true)]
         public int Id { get; set; }
+
+        [ModelProperty(1, "nom")]
         public string Nom { get; set; }
+
+        [ModelProperty(2, "direcció")]
         public string Direccio { get; set; }
+
+        [ModelProperty(3, "telefon")]
         public string Telefon { get; set; }
+
+        [ModelProperty(4, "email")]
         public string Email { get; set; }
 
         public override bool IsValid()

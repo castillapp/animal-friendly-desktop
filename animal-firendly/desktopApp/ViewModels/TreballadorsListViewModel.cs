@@ -6,6 +6,7 @@ using Persistencia.Models;
 using Persistencia.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -15,6 +16,7 @@ namespace DesktopApp.ViewModels
     {
         private readonly IAdministrarTreballadorsService administrarTreballadorsService;
         private readonly IViewModelFactory<TreballadorFitxaViewModel> treballadorFitxaModelFactory;
+        private readonly IViewModelFactory<TreballadorAssignatsViewModel> treballadorAssignatModelFactory;
         private readonly INavigator navigator;
         private List<Treballador> treballadors;
 
@@ -29,11 +31,13 @@ namespace DesktopApp.ViewModels
 
         public TreballadorsListViewModel(IAdministrarTreballadorsService administrarTreballadorsService, 
             IViewModelFactory<TreballadorFitxaViewModel> treballadorFitxaModelFactory,
+            IViewModelFactory<TreballadorAssignatsViewModel> treballadorAssignatModelFactory,
             INavigator navigator
             )
         {
             this.administrarTreballadorsService = administrarTreballadorsService;
             this.treballadorFitxaModelFactory = treballadorFitxaModelFactory;
+            this.treballadorAssignatModelFactory = treballadorAssignatModelFactory;
             this.navigator = navigator;
             Carregar();
             AccioModificacio = new AccioModificacioModelCommand<TreballadorsListViewModel>(this);
@@ -44,7 +48,7 @@ namespace DesktopApp.ViewModels
         /// </summary>
         public void Carregar()
         {
-            Treballadors = administrarTreballadorsService.GetAll();
+            Treballadors = administrarTreballadorsService.GetAll().ToList();
         }
 
         /// <summary>
@@ -69,18 +73,30 @@ namespace DesktopApp.ViewModels
                         break;
                     }
                     treballadorViewModel = treballadorFitxaModelFactory.CreateViewModel();
+                    TreballadorSeleccionat = administrarTreballadorsService.GetTreballador(TreballadorSeleccionat.DNI);
                     treballadorViewModel.ObreFitxa(this, TreballadorSeleccionat, tipusOperacio);
                     navigator.CurrentViewModel = treballadorViewModel;
                     break;
-                case TipusOperacio.Elimina:
+                case TipusOperacio.TreballadorAssignarCentre:
                     if (TreballadorSeleccionat == null)
                     {
-                        BaseViewModel.MessageViewModel.DisplayMessage("No s'ha seleccionat cap treballador per eliminar");
+                        BaseViewModel.MessageViewModel.DisplayMessage("No s'ha seleccionat cap treballador per mostrar o editar");
                         break;
                     }
-                    administrarTreballadorsService.Borra(TreballadorSeleccionat);
-                    Carregar();
+                    var treballadorCentres = treballadorAssignatModelFactory.CreateViewModel();
+                    TreballadorSeleccionat = administrarTreballadorsService.GetTreballador(TreballadorSeleccionat.DNI);
+                    treballadorCentres.ObreAssignacions(this, TreballadorSeleccionat);
+                    navigator.CurrentViewModel = treballadorCentres;
                     break;
+                //case TipusOperacio.Elimina:
+                //    if (TreballadorSeleccionat == null)
+                //    {
+                //        BaseViewModel.MessageViewModel.DisplayMessage("No s'ha seleccionat cap treballador per eliminar");
+                //        break;
+                //    }
+                //    administrarTreballadorsService.Borra(TreballadorSeleccionat);
+                //    Carregar();
+                //    break;
                 case TipusOperacio.Accepta:
                 case TipusOperacio.Cancela:
                 default:

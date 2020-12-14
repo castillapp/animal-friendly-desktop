@@ -10,8 +10,8 @@ namespace Persistencia.Models
     /// </summary>
     internal class MetadadesModel
     {
-        private Dictionary<string, InformacioPropietat> indexNomPropietats;
-        private Dictionary<string, InformacioPropietat> indexNomColumnesDB;
+        private Dictionary<string, InformacioPropietat> indexNomPropietats = new Dictionary<string, InformacioPropietat>();
+        private Dictionary<string, InformacioPropietat> indexNomColumnesDB = new Dictionary<string, InformacioPropietat>();
 
         /// <summary>
         /// Llistat de les metadades de les propietats del Model rellevants per a la DB i persistència
@@ -28,6 +28,8 @@ namespace Persistencia.Models
         public MetadadesModel(Type tipus)
         {
             var propietats = tipus.GetProperties().Where(f => Attribute.IsDefined(f, typeof(ModelPropertyAttribute)));
+
+            var props = tipus.GetProperties();
 
             var metadadesPropietats = new List<InformacioPropietat>();
             foreach (var propietat in propietats)
@@ -52,7 +54,11 @@ namespace Persistencia.Models
         /// <returns>Informació de la propietat</returns>
         public InformacioPropietat GetInformacioPropietatByDbName(string name)
         {
-            return indexNomColumnesDB[name];
+            if(indexNomColumnesDB.TryGetValue(name, out var prop))
+            {
+                return prop;
+            }
+            return null;
         }
 
         /// <summary>

@@ -12,37 +12,16 @@ namespace Persistencia.Models
 
     public interface IAnimal : IBaseModel
     {
-        [ModelProperty(0, "id_animal", true)]
         int Id { get; set; }
-
-        [ModelProperty(1, "te_chip")]
         bool TeXip { get; set; }
-
-        [ModelProperty(2, "num_chip")]
         string NumXip { get; set; }
-
-        [ModelProperty(3, "nom")]
         string Nom { get; set; }
-
-        [ModelProperty(4, "raca")]
         string Raca { get; set; }
-
-        [ModelProperty(5, "data_naix")]
         string DataNaixement { get; set; }
-
-        [ModelProperty(6, "data_arribada")]
         string DataArribada { get; set; }
-
-        [ModelProperty(7, "datqa_acollida")]
         string DataAcollida { get; set; }
-
-        [ModelProperty(8, "t_animal")]
         string IdTipusAnimal { get; set; }
-
-        [ModelProperty(9, "id_centre")]
         char IdCentre { get; set; }
-
-        [ModelProperty(10, "id_zona")]
         int IdZona { get; set; }
 
         TipusAnimal TipusAnimal { get; set; }
@@ -51,17 +30,39 @@ namespace Persistencia.Models
 
     public class Animal : BaseModel, IAnimal
     {
+        [ModelProperty(0, "id_animal", true)]
         public int Id { get; set; }
+
+        [ModelProperty(1, "te_chip")]
         public bool TeXip { get; set; }
+
+        [ModelProperty(2, "num_chip")]
         public string NumXip { get; set; }
+
+        [ModelProperty(3, "nom")]
         public string Nom { get; set; }
+
+        [ModelProperty(4, "raca")]
         public string Raca { get; set; }
+
+        [ModelProperty(5, "data_naix")]
         public string DataNaixement { get; set; }
+
+        [ModelProperty(6, "data_arribada")]
         public string DataArribada { get; set; }
+
+        [ModelProperty(7, "datqa_acollida")]
         public string DataAcollida { get; set; }
+
+        [ModelProperty(8, "t_animal")]
         public string IdTipusAnimal { get; set; }
+
+        [ModelProperty(9, "id_centre")]
         public char IdCentre { get; set; }
+
+        [ModelProperty(10, "id_zona")]
         public int IdZona { get; set; }
+
         public TipusAnimal TipusAnimal
         {
             get

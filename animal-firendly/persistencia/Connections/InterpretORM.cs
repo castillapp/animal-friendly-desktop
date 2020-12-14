@@ -51,7 +51,7 @@ namespace Persistencia.Connections
         string CodificarUpdate<Model>(Model model, string propietat) where Model : IBaseModel, new();
     }
 
-    internal class InterpretORM : IInterpretORM //where Model : IBaseModel, new()
+    public class InterpretORM : IInterpretORM //where Model : IBaseModel, new()
     {
         public IEnumerable<Model> DecodificarObjectes<Model>(string message) where Model : IBaseModel, new()
         {
@@ -76,7 +76,13 @@ namespace Persistencia.Connections
                 }
                 //A la propietat nova li donem el valor mitjançant "reflection"
                 var prop = modelIntern.MetadadesModel.GetInformacioPropietatByDbName(camp.Key);
-                prop.InfoPropietat.SetValue(objecte, Convert.ChangeType(camp.Value, prop.InfoPropietat.PropertyType));
+                if (prop == null)
+                    continue;
+
+                Type t = Nullable.GetUnderlyingType(prop.InfoPropietat.PropertyType) ?? prop.InfoPropietat.PropertyType;
+                object valorSegur = (camp.Value == null) ? null : Convert.ChangeType(camp.Value, t);
+
+                prop.InfoPropietat.SetValue(objecte, valorSegur);
             }
 
             return objectes;

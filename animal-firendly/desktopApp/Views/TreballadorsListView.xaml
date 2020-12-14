@@ -21,19 +21,20 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="4" Content="Elimina" Margin="5 0"
+            <Button Grid.Column="4" Content="Modifica" Margin="5 0"
                 Command="{Binding AccioModificacio}"
-                CommandParameter="{x:Static constData:TipusOperacio.Elimina}"/>
-            <Button Grid.Column="3" Content="Modifica" Margin="5 0"
-                Command="{Binding AccioModificacio}"
-                CommandParameter="{x:Static constData:TipusOperacio.Modifica}"/>
-            <Button Grid.Column="2" Content="Afegeix" Margin="5 0"
+                CommandParameter="{x:Static constData:TipusOperacio.Modifica}" Visibility="Collapsed"/>
+            <Button Grid.Column="3" Content="Afegeix" Margin="5 0"
                 Command="{Binding AccioModificacio}"
                 CommandParameter="{x:Static constData:TipusOperacio.Crea}"/>
-            <Button Grid.Column="1" Content="Visualitza" Margin="5 0"
+            <Button Grid.Column="2" Content="Visualitza" Margin="5 0"
                 Command="{Binding AccioModificacio}"
                 CommandParameter="{x:Static constData:TipusOperacio.Llegeix}"/>
+            <Button Grid.Column="1" Content="Centres Assignats" Margin="5 0"
+                Command="{Binding AccioModificacio}"
+                CommandParameter="{x:Static constData:TipusOperacio.TreballadorAssignarCentre}"/>
         </Grid>
         <DataGrid Grid.Row="2"
                   AutoGenerateColumns="False"

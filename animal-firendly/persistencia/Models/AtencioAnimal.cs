@@ -9,25 +9,26 @@ namespace Persistencia.Models
     {
         int Id { get; set; }
 
-        [ModelProperty(0, "id_treballador")]
         int Treballador { get; set; }
-
-        [ModelProperty(1, "id_aminal")]
         int Animal { get; set; }
-
-        [ModelProperty(2, "data")]
         DateTime Data { get; set; }
-
-        [ModelProperty(3, "motiu ")]
         string Motiu { get; set; }
     }
 
     public class AtencioAnimal : BaseModel, IAtencioAnimal
     {
         public int Id { get; set; }
+
+        [ModelProperty(0, "id_treballador")]
         public int Treballador { get; set; }
+
+        [ModelProperty(1, "id_aminal")]
         public int Animal { get; set; }
+
+        [ModelProperty(2, "data")]
         public DateTime Data { get; set; }
+
+        [ModelProperty(3, "motiu ")]
         public string Motiu { get; set; }
 
         public override bool IsValid()

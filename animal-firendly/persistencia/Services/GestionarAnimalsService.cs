@@ -68,14 +68,22 @@ namespace Persistencia.Services
 
         public Animal Crea(Animal animal)
         {
+            var animals = GetAll();
+
+            int nouId = GetLastId(animals) + 1;
+
+            animal.Id = nouId;
+
             var commands = InterpretORM.CodificarInsert(animal);
             Connexio.SendRequest(GetNomComanda(TipusOperacio.Insert, PREFIX_TAULA_ANIMALS) + commands);
 
-            var animals = GetAll();
+            //animals = GetAll();
 
-            int nouId = GetLastId(animals);
+            //nouId = GetLastId(animals);
 
-            return animals.Single(f => f.Id == nouId);
+            //return animals.Single(f => f.Id == nouId);
+
+            return animal;
         }
 
         public IEnumerable<Animal> LlistaAnimalsCentre(TipusCentre centre)
@@ -92,7 +100,7 @@ namespace Persistencia.Services
 
         public void MouAnimal(Animal animal, Zona zona)
         {
-            var comanda = InterpretORM.CodificarUpdate(animal,nameof(animal.IdZona));
+            var comanda = InterpretORM.CodificarUpdate(animal, nameof(animal.IdZona));
             Connexio.SendRequest(GetNomComanda(TipusOperacio.Update, PREFIX_TAULA_ANIMALS) + comanda);
         }
     }

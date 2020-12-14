@@ -24,9 +24,11 @@ namespace Persistencia.Services
 
     public class LoginService : BaseService, ILoginService
     {
-        public LoginService(IServerConnection connexio, IInterpretORM interpretORM) : base(connexio, interpretORM)
-        {
+        private readonly IAdministrarTreballadorsService treballadorsService;
 
+        public LoginService(IServerConnection connexio, IAdministrarTreballadorsService treballadorsService, IInterpretORM interpretORM) : base(connexio, interpretORM)
+        {
+            this.treballadorsService = treballadorsService;
         }
 
         public ITreballador FerLogin(string usuari, string password)
@@ -34,7 +36,7 @@ namespace Persistencia.Services
             var res = Connexio.SendRequest("login:" + usuari + ":" + password);
             if (res.Contains("validat"))
             {
-
+                return treballadorsService.GetTreballador(usuari);
             }
             return null;
         }

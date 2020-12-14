@@ -18,56 +18,57 @@ namespace Persistencia.Models
 
     public interface ITreballador : IBaseModel
     {
-        [ModelProperty(0, "id_treballador", true)]
         int Id { get; set; }
-
-        [ModelProperty(1, "dni")]
         string DNI { get; set; }
-
-        [ModelProperty(2, "nom")]
         string Nom { get; set; }
-
-        [ModelProperty(3, "cognoms")]
         string Cognoms { get; set; }
-
-        [ModelProperty(4, "password")]
         string Password { get; set; }
-
-        [ModelProperty(5, "telefon", true)]
         string Telefon { get; set; }
-
-        [ModelProperty(6, "email", true)]
         string Email { get; set; }
-
-        [ModelProperty(7, "sou", true)]
         Double? Sou { get; set; }
-
-        [ModelProperty(8, "t_treballador", true)]
-        string IdTipusTreballador { get; set; }
+        int IdTipusTreballador { get; set; }
 
         TipusTreballador TipusTreballador { get; set; }
     }
 
     public class Treballador : BaseModel, ITreballador
     {
+        [ModelProperty(0, "id_treballador", true)]
         public int Id { get; set; }
+
+        [ModelProperty(1, "dni")]
         public string DNI { get; set; }
+
+        [ModelProperty(2, "nom")]
         public string Nom { get; set; }
+
+        [ModelProperty(3, "cognoms")]
         public string Cognoms { get; set; }
+
+        [ModelProperty(4, "password")]
         public string Password { get; set; }
+
+        [ModelProperty(5, "telefon")]
         public string Telefon { get; set; }
+
+        [ModelProperty(6, "email")]
         public string Email { get; set; }
+
+        [ModelProperty(7, "sou")]
         public Double? Sou { get; set; }
-        public string IdTipusTreballador { get; set; }
+
+        [ModelProperty(8, "t_treballador")]
+        public int IdTipusTreballador { get; set; }
+
         public TipusTreballador TipusTreballador
         {
             get
             {
-                return ConvertTipusTreballador(IdTipusTreballador);
+                return (TipusTreballador)IdTipusTreballador;
             }
             set
             {
-                IdTipusTreballador = ConvertTipusTreballador(value);
+                IdTipusTreballador = (int)value;
             }
         }
 

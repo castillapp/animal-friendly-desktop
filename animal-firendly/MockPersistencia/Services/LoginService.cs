@@ -26,5 +26,10 @@ namespace MockPersistencia.Services
         {
             LogOutFet = true;
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

@@ -29,6 +29,20 @@ namespace Persistencia.Services
         /// <param name="treballador">nou treballador</param>
         /// <returns>Treballador nou creat</returns>
         Treballador Crea(Treballador treballador);
+
+        /// <summary>
+        /// Assigna un treballador a un centre
+        /// </summary>
+        /// <param name="treballador">treballador a assignar</param>
+        /// <param name="centre">centre on assignar-lo</param>
+        void AssignaTreballador(Treballador treballador, Centre centre);
+
+        /// <summary>
+        /// Llista els centres assigants a un treballador
+        /// </summary>
+        /// <param name="treballador">treballadora del qual es volen llistar els centres</param>
+        /// <returns>centres on esta assigant</returns>
+        IEnumerable<Centre> LlistaCentresAssignats(Treballador treballador);
     }
 
     public class AdministrarTreballadorsService : BaseService, IAdministrarTreballadorsService
@@ -45,14 +59,22 @@ namespace Persistencia.Services
 
         public Treballador Crea(Treballador treballador)
         {
+            var treballadors = GetAll();
+
+            var nouId = GetLastId(treballadors) + 1;
+
+            treballador.Id = nouId;
+
             var commands = InterpretORM.CodificarInsert(treballador);
             Connexio.SendRequest(GetNomComanda(TipusOperacio.Insert, PREFIX_TAULA_TREBALLADORS) + commands);
 
-            var treballadors = GetAll();
+            //treballadors = GetAll();
 
-            int nouId = GetLastId(treballadors);
+            //nouId = GetLastId(treballadors);
 
-            return treballadors.Single(f => f.Id == nouId);
+            //return treballadors.Single(f => f.Id == nouId);
+
+            return treballador;
         }
 
         public IEnumerable<Treballador> GetAll()
@@ -87,7 +109,7 @@ namespace Persistencia.Services
 
         public IEnumerable<Centre> LlistaCentresAssignats(Treballador treballador)
         {
-            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_PERTANY) + treballador.DNI);
+            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Literal, "pertany") + treballador.DNI);
             var pertanys = InterpretORM.DecodificarObjectes<TreballadorPertanyACentre>(res);
 
             var centres = infoCentreService.GetAll();

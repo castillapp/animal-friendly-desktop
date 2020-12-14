@@ -11,6 +11,7 @@ namespace DesktopApp.ConstantsData
         Modifica,
         Llegeix,
         Accepta,
-        Cancela
+        Cancela,
+        TreballadorAssignarCentre
     }
 }

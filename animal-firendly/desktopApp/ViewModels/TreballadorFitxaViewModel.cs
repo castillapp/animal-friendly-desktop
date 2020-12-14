@@ -44,11 +44,6 @@ namespace DesktopApp.ViewModels
             get { return treballador.DNI; }
             set { treballador.DNI = value; }
         }
-        public string Naixement
-        {
-            get { return treballador.Naixement; }
-            set { treballador.Naixement = value; }
-        }
         public string Telefon
         {
             get { return treballador.Telefon; }
@@ -58,6 +53,11 @@ namespace DesktopApp.ViewModels
         {
             get { return treballador.Email; }
             set { treballador.Email = value; }
+        }
+        public string Password
+        {
+            get { return treballador.Password; }
+            set { treballador.Password = value; }
         }
         public double? Sou
         {
@@ -78,10 +78,10 @@ namespace DesktopApp.ViewModels
             this.navigator = navigator;
             AccioModificacio = new AccioModificacioModelCommand<TreballadorFitxaViewModel>(this);
 
-            tipusTreballadors = new List<KeyValuePair<string, int>>();
-            tipusTreballadors.Add(new KeyValuePair<string, int>("Administrador", (int)TipusTreballador.Administrador));
-            tipusTreballadors.Add(new KeyValuePair<string, int>("Veterinari", (int)TipusTreballador.Veterinari));
-            tipusTreballadors.Add(new KeyValuePair<string, int>("Auxiliar", (int)TipusTreballador.Auxiliar));
+            //tipusTreballadors = new List<KeyValuePair<string, int>>();
+            //tipusTreballadors.Add(new KeyValuePair<string, int>("Administrador", (int)TipusTreballador.Administrador));
+            //tipusTreballadors.Add(new KeyValuePair<string, int>("Veterinari", (int)TipusTreballador.Veterinari));
+            //tipusTreballadors.Add(new KeyValuePair<string, int>("Auxiliar", (int)TipusTreballador.Auxiliar));
         }
 
         public void ObreFitxa(TreballadorsListViewModel llista, Treballador treballador, TipusOperacio modificacio)
@@ -121,9 +121,9 @@ namespace DesktopApp.ViewModels
                 case TipusOperacio.Crea:
                     administrarTreballadorsService.Crea(treballador);
                     break;
-                case TipusOperacio.Elimina:
-                    administrarTreballadorsService.Borra(treballador);
-                    break;
+                //case TipusOperacio.Elimina:
+                //    administrarTreballadorsService.Borra(treballador);
+                //    break;
                 case TipusOperacio.Modifica:
                     administrarTreballadorsService.Modifica(treballador);
                     break;

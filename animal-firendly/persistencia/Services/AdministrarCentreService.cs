@@ -54,14 +54,22 @@ namespace Persistencia.Services
 
         public Zona CreaZona(Zona zona)
         {
+            var zones = GetAllZones();
+
+            int nouId = GetLastId(zones) + 1;
+
+            zona.Id = nouId;
+
             var commands = InterpretORM.CodificarInsert(zona);
             Connexio.SendRequest(GetNomComanda(TipusOperacio.Insert, PREFIX_TAULA_ZONES) + commands);
 
-            var zones = GetAllZones();
+            //zones = GetAllZones();
 
-            int nouId = GetLastId(zones);
+            //nouId = GetLastId(zones);
 
-            return zones.Single(f => f.Id == nouId);
+            //return zones.Single(f => f.Id == nouId);
+
+            return zona;
         }
 
         private IEnumerable<Zona> GetAllZones()
