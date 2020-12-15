@@ -39,16 +39,25 @@
                     <Style TargetType="RadioButton" BasedOn="{StaticResource BotonsAdmin}"/>
                 </RadioButton.Resources>
             </RadioButton>
-            <RadioButton Grid.Column="1" Content="Gestionar Visites"
+            <RadioButton Grid.Column="2" Content="Gestió Zones Centre"
                     Command="{Binding UpdateCurrentViewModelCommand}"
-                    CommandParameter="{x:Static nav:ViewType.Welcome}">
+                    CommandParameter="{x:Static nav:ViewType.LlistaZones}">
+                <RadioButton.Resources>
+                    <Style TargetType="RadioButton" BasedOn="{StaticResource BotonsAdmin}"/>
+                </RadioButton.Resources>
+            </RadioButton>
+            
+            <RadioButton Grid.Column="1" Content="Gestionar Animal"
+                    Command="{Binding UpdateCurrentViewModelCommand}"
+                    CommandParameter="{x:Static nav:ViewType.LlistaAnimals}">
                 <RadioButton.Resources>
                     <Style TargetType="RadioButton" BasedOn="{StaticResource BotonsVeterinari}"/>
                 </RadioButton.Resources>
             </RadioButton>
-            <RadioButton Grid.Column="1" Content="Gestionar Atencions"
+            
+            <RadioButton Grid.Column="1" Content="Gestionar Animal"
                     Command="{Binding UpdateCurrentViewModelCommand}"
-                    CommandParameter="{x:Static nav:ViewType.Welcome}">
+                    CommandParameter="{x:Static nav:ViewType.LlistaAnimals}">
                 <RadioButton.Resources>
                     <Style TargetType="RadioButton" BasedOn="{StaticResource BotonsAuxiliar}"/>
                 </RadioButton.Resources>

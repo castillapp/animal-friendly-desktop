@@ -25,7 +25,7 @@ namespace Persistencia.Models
         int Superficie { get; set; }
 
         [ModelProperty(4, "t_zona")]
-        int IdZona { get; set; }
+        int IdTipusZona { get; set; }
 
         [ModelProperty(5, "id_centre")]
         char IdCentre { get; set; }
@@ -33,6 +33,8 @@ namespace Persistencia.Models
         TipusZona TipusZona { get; set; }
 
         TipusCentre TipusCentre { get; set; }
+
+        string NomTipusZona { get; }
     }
 
     public class Zona : BaseModel, IZona
@@ -50,7 +52,7 @@ namespace Persistencia.Models
         public int Superficie { get; set; }
 
         [ModelProperty(4, "t_zona")]
-        public int IdZona { get; set; }
+        public int IdTipusZona { get; set; }
 
         [ModelProperty(5, "id_centre")]
         public char IdCentre { get; set; }
@@ -59,11 +61,11 @@ namespace Persistencia.Models
         {
             get
             {
-                return (TipusZona)IdZona;
+                return (TipusZona)IdTipusZona;
             }
             set
             {
-                IdZona = (int)value;
+                IdTipusZona = (int)value;
             }
         }
         public TipusCentre TipusCentre
@@ -78,12 +80,20 @@ namespace Persistencia.Models
             }
         }
 
+        public string NomTipusZona
+        {
+            get
+            {
+                return TipusZona.ToString();
+            }
+        }
+
         public override bool IsValid()
         {
-            if (IdZona < 1 ||
+            if (IdTipusZona < 1 ||
                 String.IsNullOrWhiteSpace(Nom) ||
                 IdCentre == default(char) ||
-                IdZona < 0)
+                IdTipusZona < 0)
             {
                 return false;
             }

@@ -17,6 +17,7 @@ namespace Persistencia.Models
         string Direccio { get; set; }
         string Telefon { get; set; }
         string Email { get; set; }
+        TipusCentre TipusCentre { get; set; }
     }
 
     public class Centre : BaseModel, ICentre
@@ -35,6 +36,7 @@ namespace Persistencia.Models
 
         [ModelProperty(4, "email")]
         public string Email { get; set; }
+        public TipusCentre TipusCentre { get { return (TipusCentre)Id; } set { Id = (int)value; } }
 
         public override bool IsValid()
         {

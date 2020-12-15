@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="DesktopApp.Views.ZonesListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:constData="clr-namespace:DesktopApp.ConstantsData"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DesktopApp.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="24" Grid.Row="0" Text="Llistat de Zones del Centre" HorizontalAlignment="Center" Padding="0 10"/>
+        <Grid Grid.Row="1" Margin="0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="4" Content="Modifica" Margin="5 0"
+                Command="{Binding AccioModificacio}"
+                CommandParameter="{x:Static constData:TipusOperacio.Modifica}"/>
+            <Button Grid.Column="3" Content="Afegeix" Margin="5 0"
+                Command="{Binding AccioModificacio}"
+                CommandParameter="{x:Static constData:TipusOperacio.Crea}"/>
+            <Button Grid.Column="2" Content="Visualitza" Margin="5 0"
+                Command="{Binding AccioModificacio}"
+                CommandParameter="{x:Static constData:TipusOperacio.Llegeix}"/>
+        </Grid>
+        <DataGrid Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding Treballadors}"
+                  SelectedItem="{Binding TreballadorSeleccionat, Mode=TwoWay}"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Nom}" Header="Nom zona" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding NomTipusZona}" Header="Tipus zona" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -4,6 +4,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.IO;
 using System.Linq;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ConsoleTestApp
 {
@@ -30,6 +32,12 @@ namespace ConsoleTestApp
             Tcp();
         }
 
+        public static bool ValidateServerCertificate(object sender, X509Certificate certificate,
+            X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
+
         public static void Tcp()
         {
             byte[] buffer = new byte[1024];
@@ -37,8 +45,17 @@ namespace ConsoleTestApp
             try
             {
                 Int32 port = 9900;
-                TcpClient client = new TcpClient("192.168.2.200", port);
+                //TcpClient client = new TcpClient("192.168.2.200", port);
+                string server = "170.253.52.113";
+                TcpClient client = new TcpClient(server, port);
                 NetworkStream stream = client.GetStream();
+
+                using (SslStream sslStream = new SslStream(client.GetStream(), false,
+                    new RemoteCertificateValidationCallback(ValidateServerCertificate), null))
+                {
+                    sslStream.AuthenticateAsClient(server);
+                    // This is where you read and send data
+                }
 
                 var reader = new StreamReader(stream);
 

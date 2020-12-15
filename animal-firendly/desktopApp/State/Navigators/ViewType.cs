@@ -10,6 +10,8 @@ namespace DesktopApp.State.Navigators
         Welcome,
         LlistarTreballadors,
         FitxaTreballador,
+        LlistaZones,
+        LlistaAnimals,
         Exit
     }
 }

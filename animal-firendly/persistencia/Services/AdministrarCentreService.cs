@@ -19,7 +19,7 @@ namespace Persistencia.Services
         /// Llista totes les zones del centre
         /// </summary>
         /// <param name="centre">centre a llistar les zones</param>
-        /// <returns></returns>
+        /// <returns>llista de les zones del centre</returns>
         IEnumerable<Zona> GetZonesCentre(TipusCentre centre);
 
         /// <summary>

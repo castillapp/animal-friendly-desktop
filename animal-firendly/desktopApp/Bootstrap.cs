@@ -68,6 +68,12 @@ namespace DesktopApp
             builder.RegisterType<TreballadorsListViewModelFactory>().As<IViewModelFactory<TreballadorsListViewModel>>().SingleInstance();
             builder.RegisterType<TreballadorFitxaViewModelFactory>().As<IViewModelFactory<TreballadorFitxaViewModel>>().SingleInstance();
             builder.RegisterType<TreballadorAssignatsViewModelFactory>().As<IViewModelFactory<TreballadorAssignatsViewModel>>().SingleInstance();
+            builder.RegisterType<AnimalFitxaViewModelFactory>().As<IViewModelFactory<AnimalFitxaViewModel>>().SingleInstance();
+            builder.RegisterType<AnimalsListViewModelFactory>().As<IViewModelFactory<AnimalsListViewModel>>().SingleInstance();
+            builder.RegisterType<ZonaFitxaViewModelFactory>().As<IViewModelFactory<ZonaFitxaViewModel>>().SingleInstance();
+            builder.RegisterType<ZonesListViewModelFactory>().As<IViewModelFactory<ZonesListViewModel>>().SingleInstance();
+            builder.RegisterType<VisitaFitxaViewModelFactory>().As<IViewModelFactory<VisitaFitxaViewModel>>().SingleInstance();
+            builder.RegisterType<VisitesListViewModelFactory>().As<IViewModelFactory<VisitesListViewModel>>().SingleInstance();
 
             //Main ViewModel
             builder.RegisterType<MainViewModel>().AsSelf().InstancePerLifetimeScope();

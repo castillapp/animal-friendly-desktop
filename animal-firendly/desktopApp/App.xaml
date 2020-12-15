@@ -28,6 +28,24 @@
             <DataTemplate DataType="{x:Type viewmodels:TreballadorAssignatsViewModel}">
                 <views:TreballadorAssignatsView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ZonesListViewModel}">
+                <views:ZonesListView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ZonaFitxaViewModel}">
+                <views:ZonaFitxaView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:AnimalFitxaViewModel}">
+                <views:AnimalFitxaView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:AnimalsListViewModel}">
+                <views:AnimalsListView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:VisitaFitxaViewModel}">
+                <views:VisitaFitxaView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:VisitesListViewModel}">
+                <views:VisitesListView/>
+            </DataTemplate>
         </ResourceDictionary>
 
     </Application.Resources>
