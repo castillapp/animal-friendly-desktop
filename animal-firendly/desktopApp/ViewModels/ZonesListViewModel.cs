@@ -16,7 +16,6 @@ namespace DesktopApp.ViewModels
     {
         private readonly IAdministrarTreballadorsService treballadorService;
         private readonly IAdministrarCentreService administraCentreService;
-        private readonly IViewModelFactory<ZonesListViewModel> zonesListViewModelFactory;
         private readonly IViewModelFactory<ZonaFitxaViewModel> zonaFitxaViewModelFactory;
         private readonly INavigator navigator;
         private readonly IAuthenticator authenticator;
@@ -32,14 +31,12 @@ namespace DesktopApp.ViewModels
 
         public ZonesListViewModel(IAdministrarTreballadorsService treballadorService
             , IAdministrarCentreService administraCentreService
-            , IViewModelFactory<ZonesListViewModel> zonesListViewModelFactory
             , IViewModelFactory<ZonaFitxaViewModel> zonaFitxaViewModelFactory
             , INavigator navigator
             , IAuthenticator authenticator)
         {
             this.treballadorService = treballadorService;
             this.administraCentreService = administraCentreService;
-            this.zonesListViewModelFactory = zonesListViewModelFactory;
             this.zonaFitxaViewModelFactory = zonaFitxaViewModelFactory;
             this.navigator = navigator;
             this.authenticator = authenticator;
@@ -52,7 +49,7 @@ namespace DesktopApp.ViewModels
         /// </summary>
         public void Carregar()
         {
-            centresTreballador = treballadorService.LlistaCentresAssignats(new Treballador() { Id = authenticator.GetIdUsuari.Value });
+            centresTreballador = treballadorService.LlistaCentresAssignats(new Treballador() { DNI = authenticator.GetDNIUsuari});
             var zones = new List<Zona>();
             foreach (var centre in centresTreballador)
             {
@@ -65,7 +62,40 @@ namespace DesktopApp.ViewModels
 
         public void FerModificacio(TipusOperacio tipusOperacio)
         {
-            throw new NotImplementedException();
+            switch (tipusOperacio)
+            {
+                case TipusOperacio.Crea:
+                    var zonaViewModel = zonaFitxaViewModelFactory.CreateViewModel();
+                    zonaViewModel.ObreFitxa(this, new Zona(), tipusOperacio);
+                    navigator.CurrentViewModel = zonaViewModel;
+                    break;
+                case TipusOperacio.Modifica:
+                    if(ZonaSeleccionada == null)
+                    {
+                        BaseViewModel.MessageViewModel.DisplayMessage("No s'ha seleccionat cap zona per mostrar o editar");
+                        break;
+                    }
+                    zonaViewModel = zonaFitxaViewModelFactory.CreateViewModel();
+                    zonaViewModel.ObreFitxa(this, ZonaSeleccionada, tipusOperacio);
+                    navigator.CurrentViewModel = zonaViewModel;
+                    break;
+                case TipusOperacio.Llegeix:
+                    if (ZonaSeleccionada == null)
+                    {
+                        BaseViewModel.MessageViewModel.DisplayMessage("No s'ha seleccionat cap zona per mostrar o editar");
+                        break;
+                    }
+                    zonaViewModel = zonaFitxaViewModelFactory.CreateViewModel();
+                    zonaViewModel.ObreFitxa(this, ZonaSeleccionada, tipusOperacio);
+                    navigator.CurrentViewModel = zonaViewModel;
+                    break;
+                case TipusOperacio.Elimina:
+                case TipusOperacio.Accepta:
+                case TipusOperacio.Cancela:
+                case TipusOperacio.TreballadorAssignarCentre:
+                default:
+                    throw new NotSupportedException("funcionalitat no suportada");
+            }
         }
     }
 }

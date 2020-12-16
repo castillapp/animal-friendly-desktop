@@ -50,6 +50,7 @@ namespace Persistencia.Services
         {
             var commands = InterpretORM.CodificarUpdate(zona);
             ExecutaFullUpdate(commands, PREFIX_TAULA_ZONES);
+            Connexio.LectorAvancaLinia();
         }
 
         public Zona CreaZona(Zona zona)

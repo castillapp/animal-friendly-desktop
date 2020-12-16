@@ -15,12 +15,30 @@ namespace Persistencia.Models
         public int NumColumnaDB { get; }
         public bool PrimaryKey { get; }
         public string ColumName { get; set; }
+        public int NumColumnaDbUpdate
+        {
+            get { return numColumnaDbUpdate == null ? NumColumnaDB : numColumnaDbUpdate.Value; }
+            set
+            {
+                numColumnaDbUpdate = value;
+            }
+        }
+
+        private int? numColumnaDbUpdate = null;
 
         public ModelPropertyAttribute(int numColumnaDB, string columName, bool isPrimaryKey = false)
         {
             this.NumColumnaDB = numColumnaDB;
             this.PrimaryKey = isPrimaryKey;
             this.ColumName = columName;
+        }
+
+        public ModelPropertyAttribute(int numColumnaDB, string columName, int numColumnUpdate)
+        {
+            this.NumColumnaDB = numColumnaDB;
+            this.PrimaryKey = false;
+            this.ColumName = columName;
+            this.numColumnaDbUpdate = numColumnUpdate;
         }
     }
 }

@@ -35,8 +35,8 @@
         </Grid>
         <DataGrid Grid.Row="2"
                   AutoGenerateColumns="False"
-                  ItemsSource="{Binding Treballadors}"
-                  SelectedItem="{Binding TreballadorSeleccionat, Mode=TwoWay}"
+                  ItemsSource="{Binding Zones}"
+                  SelectedItem="{Binding ZonaSeleccionada, Mode=TwoWay}"
                   SelectionMode="Single"
                   SelectionUnit="FullRow"
                   CanUserAddRows="False">

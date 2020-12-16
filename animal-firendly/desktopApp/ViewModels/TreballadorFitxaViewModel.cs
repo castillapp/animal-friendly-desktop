@@ -121,9 +121,6 @@ namespace DesktopApp.ViewModels
                 case TipusOperacio.Crea:
                     administrarTreballadorsService.Crea(treballador);
                     break;
-                //case TipusOperacio.Elimina:
-                //    administrarTreballadorsService.Borra(treballador);
-                //    break;
                 case TipusOperacio.Modifica:
                     administrarTreballadorsService.Modifica(treballador);
                     break;
@@ -131,7 +128,7 @@ namespace DesktopApp.ViewModels
                 case TipusOperacio.Accepta:
                 case TipusOperacio.Cancela:
                 default:
-                    break;
+                    throw new NotSupportedException("Operació no permesa");
             }
         }
     }

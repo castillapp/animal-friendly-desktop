@@ -44,9 +44,9 @@ namespace DesktopApp.State.Authenticators
         string NomUsuari { get; }
 
         /// <summary>
-        /// Retorna el Id de l'usuari loguejat
+        /// Retorna el DNI de l'usuari loguejat
         /// </summary>
-        int? GetIdUsuari { get; }
+        string GetDNIUsuari { get; }
     }
 
     public class Authenticator : ObservableObject, IAuthenticator
@@ -76,7 +76,7 @@ namespace DesktopApp.State.Authenticators
                 OnPropertyChanged(nameof(Logejat));
                 OnPropertyChanged(nameof(CurrentUsuari));
                 OnPropertyChanged(nameof(TipusUsuari));
-                OnPropertyChanged(nameof(GetIdUsuari));
+                OnPropertyChanged(nameof(GetDNIUsuari));
             }
         }
 
@@ -95,7 +95,7 @@ namespace DesktopApp.State.Authenticators
 
         public string NomUsuari { get { return currentUsuari?.Nom; } }
 
-        public int? GetIdUsuari { get { return currentUsuari?.Id; } }
+        public string GetDNIUsuari { get { return currentUsuari?.DNI; } }
 
         public string Login(string usuari, string pass)
         {

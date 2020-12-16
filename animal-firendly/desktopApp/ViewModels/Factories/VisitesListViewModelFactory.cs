@@ -10,23 +10,20 @@ namespace DesktopApp.ViewModels.Factories
     {
         private readonly IGestionarAnimalsService gestionarAnimalsService;
         private readonly IViewModelFactory<VisitaFitxaViewModel> visitaFitxaViewModelFactory;
-        private readonly IViewModelFactory<VisitesListViewModel> visitesListViewModelFactory;
         private readonly INavigator navigator;
 
         public VisitesListViewModelFactory(IGestionarAnimalsService gestionarAnimalsService,
             IViewModelFactory<VisitaFitxaViewModel> visitaFitxaViewModelFactory,
-            IViewModelFactory<VisitesListViewModel> visitesListViewModelFactory,
             INavigator navigator)
         {
             this.gestionarAnimalsService = gestionarAnimalsService;
             this.visitaFitxaViewModelFactory = visitaFitxaViewModelFactory;
-            this.visitesListViewModelFactory = visitesListViewModelFactory;
             this.navigator = navigator;
         }
 
         public VisitesListViewModel CreateViewModel()
         {
-            return new VisitesListViewModel(gestionarAnimalsService, visitaFitxaViewModelFactory, visitesListViewModelFactory, navigator);
+            return new VisitesListViewModel(gestionarAnimalsService, visitaFitxaViewModelFactory, navigator);
         }
     }
 }

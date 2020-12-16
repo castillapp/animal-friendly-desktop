@@ -14,7 +14,6 @@ namespace DesktopApp.ViewModels
     {
         private readonly IGestionarAnimalsService gestionarAnimalsService;
         private readonly IViewModelFactory<VisitaFitxaViewModel> visitaFitxaViewModelFactory;
-        private readonly IViewModelFactory<VisitesListViewModel> visitesListViewModelFactory;
         private readonly INavigator navigator;
         private List<AtencioAnimal> visites;
 
@@ -28,12 +27,10 @@ namespace DesktopApp.ViewModels
 
         public VisitesListViewModel(IGestionarAnimalsService gestionarAnimalsService,
             IViewModelFactory<VisitaFitxaViewModel> visitaFitxaViewModelFactory,
-            IViewModelFactory<VisitesListViewModel> visitesListViewModelFactory,
             INavigator navigator)
         {
             this.gestionarAnimalsService = gestionarAnimalsService;
             this.visitaFitxaViewModelFactory = visitaFitxaViewModelFactory;
-            this.visitesListViewModelFactory = visitesListViewModelFactory;
             this.navigator = navigator;
         }
 

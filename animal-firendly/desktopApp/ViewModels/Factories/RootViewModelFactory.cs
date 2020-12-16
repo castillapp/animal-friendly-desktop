@@ -32,6 +32,8 @@ namespace DesktopApp.ViewModels.Factories
         private readonly IViewModelFactory<LoginViewModel> loginViewModelFactory;
         private readonly IViewModelFactory<UsuariWelcomeViewModel> usuariWelcomeViewModelFactory;
         private readonly IViewModelFactory<TreballadorsListViewModel> treballadorsListViewModelFactory;
+        private readonly IViewModelFactory<ZonesListViewModel> zonesListViewModelFactory;
+        private readonly IViewModelFactory<AnimalsListViewModel> animalsListViewModelFactory;
 
         /// <summary>
         /// Injectem tots els viewModels i altres dependencies
@@ -42,12 +44,16 @@ namespace DesktopApp.ViewModels.Factories
             IViewModelFactory<LoginViewModel> loginViewModelFactory,
             IViewModelFactory<UsuariWelcomeViewModel> usuariWelcomeViewModelFactory,
             IViewModelFactory<TreballadorsListViewModel> treballadorsListViewModelFactory,
+            IViewModelFactory<ZonesListViewModel> zonesListViewModelFactory,
+            IViewModelFactory<AnimalsListViewModel> animalsListViewModelFactory,
             IAuthenticator authenticator)
         {
             this.authenticator = authenticator;
             this.loginViewModelFactory = loginViewModelFactory;
             this.usuariWelcomeViewModelFactory = usuariWelcomeViewModelFactory;
             this.treballadorsListViewModelFactory = treballadorsListViewModelFactory;
+            this.zonesListViewModelFactory = zonesListViewModelFactory;
+            this.animalsListViewModelFactory = animalsListViewModelFactory;
         }
 
         public BaseViewModel CreateViewModel(ViewType viewType)
@@ -64,6 +70,10 @@ namespace DesktopApp.ViewModels.Factories
                     authenticator.Logout();
                     System.Windows.Application.Current.Shutdown();
                     return null;
+                case ViewType.LlistaZones:
+                    return zonesListViewModelFactory.CreateViewModel();
+                case ViewType.LlistaAnimals:
+                    return animalsListViewModelFactory.CreateViewModel();
                 default:
                     throw new ArgumentException("ViewType no té un ViewModel");
             }

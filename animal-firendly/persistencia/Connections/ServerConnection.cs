@@ -36,6 +36,11 @@ namespace Persistencia.Connections
         /// <param name="message">Missatge/comanda de text que s'envia al servidor</param>
         /// <returns>Resposta del servidor en text pla (raw), asíncron</returns>
         Task<string> SendRequestAsync(string message);
+
+        /// <summary>
+        /// Avança el lector una linia. Fet per solucionar alguns bugs del server quan ens torna més d'una linia per comanda;
+        /// </summary>
+        void LectorAvancaLinia();
     }
 
     public class ServerConnection : IServerConnection
@@ -111,6 +116,11 @@ namespace Persistencia.Connections
             reader.Dispose();
             stream.Dispose();
             client.Dispose();
+        }
+
+        public void LectorAvancaLinia()
+        {
+           reader.ReadLine();           
         }
     }
 }

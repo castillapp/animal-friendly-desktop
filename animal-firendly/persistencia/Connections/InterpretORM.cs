@@ -126,7 +126,7 @@ namespace Persistencia.Connections
             {
                 if (prop.MetadadesPropietat.PrimaryKey)
                     continue;
-                var raw = prop.MetadadesPropietat.NumColumnaDB.ToString() + ":";
+                var raw = prop.MetadadesPropietat.NumColumnaDbUpdate.ToString() + ":";
 
                 //mirem si el valor es null/default
                 if (prop.InfoPropietat.GetValue(model) != GetDefaultValue(prop.InfoPropietat.PropertyType))

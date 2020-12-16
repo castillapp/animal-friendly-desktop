@@ -11,20 +11,17 @@ namespace DesktopApp.ViewModels.Factories
     {
         private readonly IAdministrarTreballadorsService administrarTreballadorsService;
         private readonly IAdministrarCentreService administrarCentreService;
-        private readonly IViewModelFactory<ZonesListViewModel> zonesListViewModelFactory;
         private readonly IViewModelFactory<ZonaFitxaViewModel> zonaFitxaViewModelFactory;
         private readonly INavigator navigator;
         private readonly IAuthenticator authenticator;
 
         public ZonesListViewModelFactory(IAdministrarTreballadorsService administrarTreballadorsService,
             IAdministrarCentreService administrarCentreService,
-            IViewModelFactory<ZonesListViewModel> zonesListViewModelFactory,
             IViewModelFactory<ZonaFitxaViewModel> zonaFitxaViewModelFactory,
             INavigator navigator, IAuthenticator authenticator)
         {
             this.administrarTreballadorsService = administrarTreballadorsService;
             this.administrarCentreService = administrarCentreService;
-            this.zonesListViewModelFactory = zonesListViewModelFactory;
             this.zonaFitxaViewModelFactory = zonaFitxaViewModelFactory;
             this.navigator = navigator;
             this.authenticator = authenticator;
@@ -33,7 +30,7 @@ namespace DesktopApp.ViewModels.Factories
         public ZonesListViewModel CreateViewModel()
         {
             return new ZonesListViewModel(administrarTreballadorsService, administrarCentreService,
-                zonesListViewModelFactory, zonaFitxaViewModelFactory,
+                zonaFitxaViewModelFactory,
                 navigator, authenticator);
         }
     }

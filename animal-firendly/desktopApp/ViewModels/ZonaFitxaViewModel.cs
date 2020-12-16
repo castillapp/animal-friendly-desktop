@@ -1,6 +1,7 @@
 ﻿using DesktopApp.Commands;
 using DesktopApp.ConstantsData;
 using DesktopApp.State.Navigators;
+using Persistencia.Exceptions;
 using Persistencia.Models;
 using Persistencia.Services;
 using System;
@@ -52,7 +53,40 @@ namespace DesktopApp.ViewModels
 
         public void FerModificacio(TipusOperacio tipusOperacio)
         {
-            throw new NotImplementedException();
+            if (tipusOperacio == TipusOperacio.Accepta)
+            {
+                try
+                {
+                    GuardarAPersistencia();
+                }
+                catch (PersistenciaBaseException ex)
+                {
+                    MessageViewModel.DisplayErrorMessage(ex);
+                    return;
+                }
+            }
+            llista.Carregar();
+            navigator.CurrentViewModel = llista;
+        }
+
+        private void GuardarAPersistencia()
+        {
+
+            switch (TipusAccioModificacio)
+            {
+                case TipusOperacio.Crea:
+                    administrarCentreService.CreaZona(zona);
+                    break;
+                case TipusOperacio.Modifica:
+                    administrarCentreService.ActualitzaZona(zona);
+                    break;
+                case TipusOperacio.Elimina:
+                case TipusOperacio.Llegeix:
+                case TipusOperacio.Accepta:
+                case TipusOperacio.Cancela:
+                default:
+                    throw new NotSupportedException("Operació no permesa");
+            }
         }
     }
 }

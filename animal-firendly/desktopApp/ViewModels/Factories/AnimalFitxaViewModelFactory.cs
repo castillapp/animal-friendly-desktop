@@ -6,28 +6,20 @@ using System.Text;
 
 namespace DesktopApp.ViewModels.Factories
 {
-    public class AnimalFitxaViewModelFactory : IViewModelFactory<AnimalsListViewModel>
+    public class AnimalFitxaViewModelFactory : IViewModelFactory<AnimalFitxaViewModel>
     {
         private readonly IGestionarAnimalsService gestionarAnimalsService;
-        private readonly IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory;
-        private readonly IViewModelFactory<AnimalsListViewModel> animalListVewModelFactory;
+        private readonly INavigator navigator;
 
-        public AnimalFitxaViewModelFactory(IGestionarAnimalsService gestionarAnimalsService,
-            IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory,
-            IViewModelFactory<AnimalsListViewModel> animalListVewModelFactory,
-            INavigator navigator)
+        public AnimalFitxaViewModelFactory(IGestionarAnimalsService gestionarAnimalsService, INavigator navigator)
         {
             this.gestionarAnimalsService = gestionarAnimalsService;
-            this.animalFitxaViewModelFactory = animalFitxaViewModelFactory;
-            this.animalListVewModelFactory = animalListVewModelFactory;
-            Navigator = navigator;
+            this.navigator = navigator;
         }
 
-        public INavigator Navigator { get; }
-
-        public AnimalsListViewModel CreateViewModel()
+        public AnimalFitxaViewModel CreateViewModel()
         {
-            return new AnimalsListViewModel(gestionarAnimalsService, animalFitxaViewModelFactory, animalListVewModelFactory, Navigator);
+            return new AnimalFitxaViewModel(gestionarAnimalsService, navigator);
         }
     }
 }

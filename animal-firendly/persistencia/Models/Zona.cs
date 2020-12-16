@@ -12,23 +12,14 @@ namespace Persistencia.Models
 
     public interface IZona : IBaseModel
     {
-        [ModelProperty(0, "id_zona", true)]
         int Id { get; set; }
-
-        [ModelProperty(1, "nom_Z")]
         string Nom { get; set; }
-
-        [ModelProperty(2, "aforament")]
         int Aforament { get; set; }
 
-        [ModelProperty(3, "superficie")]
+        //deshabilitem la propietat perque la bbdd a vegades no torna aquest camp
         int Superficie { get; set; }
-
-        [ModelProperty(4, "t_zona")]
         int IdTipusZona { get; set; }
-
-        [ModelProperty(5, "id_centre")]
-        char IdCentre { get; set; }
+        int IdCentre { get; set; }
 
         TipusZona TipusZona { get; set; }
 
@@ -42,20 +33,23 @@ namespace Persistencia.Models
         [ModelProperty(0, "id_zona", true)]
         public int Id { get; set; }
 
-        [ModelProperty(1, "nom_Z")]
+        [ModelProperty(1, "nom", 2)]
         public string Nom { get; set; }
-
-        [ModelProperty(2, "aforament")]
+                
+        [ModelProperty(2, "aforament", 3)]
         public int Aforament { get; set; }
 
-        [ModelProperty(3, "superficie")]
-        public int Superficie { get; set; }
+        /// <summary>
+        /// neutralitzem el camp perque la bbdd a vegades no torna aquest camp
+        /// </summary>
+        [ModelProperty(3, "superficie", 4)]
+        public int Superficie { get; set; } = 0;
 
-        [ModelProperty(4, "t_zona")]
+        [ModelProperty(4, "t_zona",5)]
         public int IdTipusZona { get; set; }
 
-        [ModelProperty(5, "id_centre")]
-        public char IdCentre { get; set; }
+        [ModelProperty(5, "id_centre",6)]
+        public int IdCentre { get; set; }
 
         public TipusZona TipusZona
         {
@@ -72,11 +66,11 @@ namespace Persistencia.Models
         {
             get
             {
-                return Centre.ConvertTipusCentre(IdCentre);
+                return (TipusCentre)IdCentre;
             }
             set
             {
-                IdCentre = Centre.ConvertTipusCentre(value);
+                IdCentre = (int)value;
             }
         }
 

@@ -17,7 +17,6 @@ namespace DesktopApp.ViewModels
         private List<Animal> animals;
         private readonly IGestionarAnimalsService gestionarAnimalsService;
         private readonly IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory;
-        private readonly IViewModelFactory<AnimalsListViewModel> animalListVewModelFactory;
         private readonly INavigator navigator;
 
         public Animal AnimalSeleccionat { get; set; }
@@ -29,12 +28,10 @@ namespace DesktopApp.ViewModels
 
         public AnimalsListViewModel(IGestionarAnimalsService gestionarAnimalsService,
             IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory,
-            IViewModelFactory<AnimalsListViewModel> animalListVewModelFactory,
             INavigator navigator)
         {
             this.gestionarAnimalsService = gestionarAnimalsService;
             this.animalFitxaViewModelFactory = animalFitxaViewModelFactory;
-            this.animalListVewModelFactory = animalListVewModelFactory;
             this.navigator = navigator;
             AccioModificacio = new AccioModificacioModelCommand<AnimalsListViewModel>(this);
         }

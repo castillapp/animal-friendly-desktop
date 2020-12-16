@@ -63,7 +63,7 @@ namespace Persistencia.Services
         {
             foreach (var comanda in comandes)
             {
-                Connexio.SendRequest(GetNomComanda(TipusOperacio.Update, nomTaula) + comanda);
+                var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Update, nomTaula) + comanda);
             }
         }
 
