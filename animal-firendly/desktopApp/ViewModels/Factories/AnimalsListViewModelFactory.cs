@@ -1,4 +1,5 @@
-﻿using DesktopApp.State.Navigators;
+﻿using DesktopApp.State.Authenticators;
+using DesktopApp.State.Navigators;
 using Persistencia.Services;
 using System;
 using System.Collections.Generic;
@@ -9,21 +10,30 @@ namespace DesktopApp.ViewModels.Factories
     public class AnimalsListViewModelFactory : IViewModelFactory<AnimalsListViewModel>
     {
         private readonly IGestionarAnimalsService gestionarAnimalsService;
+        private readonly IAdministrarTreballadorsService treballadorsService;
         private readonly IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory;
+        private readonly IViewModelFactory<VisitesListViewModel> visitesListVewModelFactory;
         private readonly INavigator navigator;
+        private readonly IAuthenticator authenticator;
 
         public AnimalsListViewModelFactory(IGestionarAnimalsService gestionarAnimalsService,
+            IAdministrarTreballadorsService treballadorsService,
             IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory,
-            INavigator navigator)
+            IViewModelFactory<VisitesListViewModel> visitesListVewModelFactory,
+            INavigator navigator,
+            IAuthenticator authenticator)
         {
             this.gestionarAnimalsService = gestionarAnimalsService;
+            this.treballadorsService = treballadorsService;
             this.animalFitxaViewModelFactory = animalFitxaViewModelFactory;
+            this.visitesListVewModelFactory = visitesListVewModelFactory;
             this.navigator = navigator;
+            this.authenticator = authenticator;
         }
 
         public AnimalsListViewModel CreateViewModel()
         {
-            return new AnimalsListViewModel(gestionarAnimalsService, animalFitxaViewModelFactory, navigator);
+            return new AnimalsListViewModel(gestionarAnimalsService, treballadorsService, animalFitxaViewModelFactory, visitesListVewModelFactory, navigator, authenticator);
         }
     }
 }

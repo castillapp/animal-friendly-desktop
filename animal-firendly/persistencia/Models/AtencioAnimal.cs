@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text;
 
 namespace Persistencia.Models
 {
     public interface IAtencioAnimal : IBaseModel
     {
-        int Id { get; set; }
-
-        int Treballador { get; set; }
+        int IdTreballador { get; set; }
         int Animal { get; set; }
         DateTime Data { get; set; }
         string Motiu { get; set; }
@@ -17,12 +16,10 @@ namespace Persistencia.Models
 
     public class AtencioAnimal : BaseModel, IAtencioAnimal
     {
-        public int Id { get; set; }
+        [ModelProperty(0, "id_treballador", true)]
+        public int IdTreballador { get; set; }
 
-        [ModelProperty(0, "id_treballador")]
-        public int Treballador { get; set; }
-
-        [ModelProperty(1, "id_aminal")]
+        [ModelProperty(1, "id_animal")]
         public int Animal { get; set; }
 
         [ModelProperty(2, "data")]
@@ -31,9 +28,19 @@ namespace Persistencia.Models
         [ModelProperty(3, "motiu ")]
         public string Motiu { get; set; }
 
+        public Treballador Treballador { get; set; }
+
+        public string DataText
+        {
+            get
+            {
+                return Data.ToString("dd/M/yyyy", CultureInfo.InvariantCulture);
+            }
+        }
+
         public override bool IsValid()
         {
-            if (Treballador < 1 ||
+            if (IdTreballador < 1 ||
                  Animal < 1 ||
                  Data == default(DateTime) ||
                  String.IsNullOrWhiteSpace(Motiu))

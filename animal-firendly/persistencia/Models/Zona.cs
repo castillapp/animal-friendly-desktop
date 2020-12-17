@@ -16,7 +16,7 @@ namespace Persistencia.Models
         string Nom { get; set; }
         int Aforament { get; set; }
 
-        //deshabilitem la propietat perque la bbdd a vegades no torna aquest camp
+        //no mostrarem aquesta propietat perque la bbdd a vegades no torna aquest camp
         int Superficie { get; set; }
         int IdTipusZona { get; set; }
         int IdCentre { get; set; }

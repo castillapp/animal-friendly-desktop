@@ -15,12 +15,23 @@ namespace DesktopApp.ViewModels
         private readonly IGestionarAnimalsService gestionarAnimalsService;
         private readonly IViewModelFactory<VisitaFitxaViewModel> visitaFitxaViewModelFactory;
         private readonly INavigator navigator;
-        private List<AtencioAnimal> visites;
+        private IList<AtencioAnimal> visites;
+        private AnimalsListViewModel animalsListViewModel;
+        private Animal animal;
+        private Treballador treballador;
 
-        public List<AtencioAnimal> AtencioAnimals
+        public IList<AtencioAnimal> AtencionsAnimal
         {
             get { return visites; }
-            private set { visites = value; OnPropertyChanged(nameof(AtencioAnimals)); }
+            private set { visites = value; OnPropertyChanged(nameof(AtencionsAnimal)); }
+        }
+
+        public string TitolVista
+        {
+            get
+            {
+                return "Visites de " + animal.Nom;
+            }
         }
 
         public ICommand AccioModificacio { get; }
@@ -34,9 +45,40 @@ namespace DesktopApp.ViewModels
             this.navigator = navigator;
         }
 
+        /// <summary>
+        /// Llista les visites de l'animal, agafant-los de la BBDD
+        /// </summary>
+        public void Carregar(Animal animal, Treballador treballador, AnimalsListViewModel animalsListViewModel)
+        {
+            this.animalsListViewModel = animalsListViewModel;
+            this.animal = animal;
+            this.treballador = treballador;
+            Actualitza();
+        }
+
+        /// <summary>
+        /// Refresca la llista
+        /// </summary>
+        public void Actualitza()
+        {
+            visites = gestionarAnimalsService.LlistarAtencionsAnimal(animal);
+        }
+
         public void FerModificacio(TipusOperacio tipusOperacio)
         {
-            throw new NotImplementedException();
+            switch (tipusOperacio)
+            {
+                case TipusOperacio.Cancela:
+                    navigator.CurrentViewModel = animalsListViewModel;
+                    break;
+                case TipusOperacio.Crea:
+                    var visitaFitxa = this.visitaFitxaViewModelFactory.CreateViewModel();
+                    visitaFitxa.ObreFitxa(this, new AtencioAnimal(), treballador, tipusOperacio);
+                    navigator.CurrentViewModel = visitaFitxa;
+                    break;
+                default:
+                    throw new NotSupportedException("Operació no permesa");
+            }
         }
     }
 }

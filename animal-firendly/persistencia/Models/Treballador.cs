@@ -60,6 +60,16 @@ namespace Persistencia.Models
         [ModelProperty(8, "t_treballador")]
         public int IdTipusTreballador { get; set; }
 
+        public string NomComplert
+        {
+            get { return Nom + " " + Cognoms; }
+        }
+
+        public string NomTipusTreballador
+        {
+            get { return TipusTreballador.ToString(); }
+        }
+
         public TipusTreballador TipusTreballador
         {
             get

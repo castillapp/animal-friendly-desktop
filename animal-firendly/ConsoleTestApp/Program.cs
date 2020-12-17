@@ -47,7 +47,7 @@ namespace ConsoleTestApp
                 Int32 port = 9900;
                 //TcpClient client = new TcpClient("192.168.2.200", port);
                 string server = "170.253.52.113";
-                server = "192.168.2.200";
+                server = "192.168.2.151";
                 TcpClient client = new TcpClient(server, port);
                 NetworkStream stream = client.GetStream();
 
@@ -64,7 +64,7 @@ namespace ConsoleTestApp
                 stream.Write(data, 0, data.Length);
                 var a = reader.ReadLine();
 
-                data = Encoding.UTF8.GetBytes("updzon:4:13:222\n");
+                data = Encoding.UTF8.GetBytes("selate:x\n");
                 stream.Write(data, 0, data.Length);
 
                 var res = reader.ReadLine();

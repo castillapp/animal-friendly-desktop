@@ -124,9 +124,9 @@ namespace DesktopApp.ViewModels
                 case TipusOperacio.Modifica:
                     administrarTreballadorsService.Modifica(treballador);
                     break;
+                case TipusOperacio.Cancela:
                 case TipusOperacio.Llegeix:
                 case TipusOperacio.Accepta:
-                case TipusOperacio.Cancela:
                 default:
                     throw new NotSupportedException("Operació no permesa");
             }

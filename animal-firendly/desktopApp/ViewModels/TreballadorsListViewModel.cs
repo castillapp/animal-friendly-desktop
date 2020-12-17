@@ -100,7 +100,7 @@ namespace DesktopApp.ViewModels
                 case TipusOperacio.Accepta:
                 case TipusOperacio.Cancela:
                 default:
-                    break;
+                    throw new NotSupportedException("Operació no permesa");
             }
         }
     }

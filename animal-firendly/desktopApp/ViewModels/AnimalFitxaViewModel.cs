@@ -1,6 +1,7 @@
 ﻿using DesktopApp.Commands;
 using DesktopApp.ConstantsData;
 using DesktopApp.State.Navigators;
+using Persistencia.Exceptions;
 using Persistencia.Models;
 using Persistencia.Services;
 using System;
@@ -86,9 +87,45 @@ namespace DesktopApp.ViewModels
             this.TipusAccioModificacio = modificacio;
         }
 
+        /// <summary>
+        /// Gestiona l'execució de l'acció de modificar un animal, si és per editar, crear o visualitzar, obre una fitxa de l'animal
+        /// </summary>
+        /// <param name="tipusOperacio">Tipus d'operacio a fer</param>
         public void FerModificacio(TipusOperacio tipusOperacio)
         {
-            throw new NotImplementedException();
+            if (tipusOperacio == TipusOperacio.Accepta)
+            {
+                try
+                {
+                    GuardarAPersistencia();
+                }
+                catch (PersistenciaBaseException ex)
+                {
+                    MessageViewModel.DisplayErrorMessage(ex);
+                    return;
+                }
+            }
+            llista.Carregar();
+            navigator.CurrentViewModel = llista;
+        }
+
+        private void GuardarAPersistencia()
+        {
+
+            switch (TipusAccioModificacio)
+            {
+                case TipusOperacio.Crea:
+                    gestionarAnimalsService.Crea(animal);
+                    break;
+                case TipusOperacio.Modifica:
+                    gestionarAnimalsService.Modifica(animal);
+                    break;
+                case TipusOperacio.Cancela:
+                case TipusOperacio.Llegeix:
+                case TipusOperacio.Accepta:
+                default:
+                    throw new NotSupportedException("Operació no permesa");
+            }
         }
     }
 }

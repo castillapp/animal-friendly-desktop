@@ -20,12 +20,15 @@ namespace Persistencia.Models
         string DataNaixement { get; set; }
         string DataArribada { get; set; }
         string DataAcollida { get; set; }
-        string IdTipusAnimal { get; set; }
-        char IdCentre { get; set; }
+        int IdTipusAnimal { get; set; }
+        int IdCentre { get; set; }
         int IdZona { get; set; }
 
         TipusAnimal TipusAnimal { get; set; }
         TipusCentre TipusCentre { get; set; }
+
+        string NomTipusAnimal { get; }
+        string NomTipusCentre { get; }
     }
 
     public class Animal : BaseModel, IAnimal
@@ -55,10 +58,10 @@ namespace Persistencia.Models
         public string DataAcollida { get; set; }
 
         [ModelProperty(8, "t_animal")]
-        public string IdTipusAnimal { get; set; }
+        public int IdTipusAnimal { get; set; }
 
         [ModelProperty(9, "id_centre")]
-        public char IdCentre { get; set; }
+        public int IdCentre { get; set; }
 
         [ModelProperty(10, "id_zona")]
         public int IdZona { get; set; }
@@ -67,24 +70,28 @@ namespace Persistencia.Models
         {
             get
             {
-                return ConvertirTipusAnimal(IdTipusAnimal);
+                return (TipusAnimal)IdTipusAnimal;
             }
             set
             {
-                IdTipusAnimal = ConvertirTipusAnimal(value);
+                IdTipusAnimal = (int)TipusAnimal;
             }
         }
         public TipusCentre TipusCentre
         {
             get
             {
-                return Centre.ConvertTipusCentre(IdCentre);
+                return (TipusCentre)IdCentre;
             }
             set
             {
-                IdCentre = Centre.ConvertTipusCentre(value);
+                IdCentre = (int)value;
             }
         }
+
+        public string NomTipusAnimal { get { return TipusAnimal.ToString(); } }
+
+        public string NomTipusCentre { get { return TipusCentre.ToString(); } }
 
         internal static TipusAnimal ConvertirTipusAnimal(string tipusAnimal)
         {

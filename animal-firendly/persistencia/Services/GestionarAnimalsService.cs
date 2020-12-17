@@ -33,8 +33,15 @@ namespace Persistencia.Services
         /// Registra una atenció del animal per part d'un veterinari o auxiliar
         /// </summary>
         /// <param name="atencioAnimal">Nova atenció que es fa a l'animal</param>
-        /// <param name="tipusTreballador">Tipus de treballador que fa l'atencio, només pot ser un Auxiliar o un Veterinari</param>
-        void AtencioAnimal(AtencioAnimal atencioAnimal, TipusTreballador tipusTreballador);
+        /// <param name="treballador">Treballador que fa l'atencio, només pot ser un Auxiliar o un Veterinari</param>
+        void NovaAtencioAnimal(AtencioAnimal atencioAnimal, Treballador treballador);
+
+        /// <summary>
+        /// Llista totes les atencions de l'animal, ordenades des de la mes recent a la menys recent
+        /// </summary>
+        /// <param name="animal">Animal a llistar les atencions</param>
+        /// <returns>Atencions de l'animal, ordenader de mes a menys recent</returns>
+        IList<AtencioAnimal> LlistarAtencionsAnimal(Animal animal);
 
         /// <summary>
         /// Llista tots els animals que hi ha al centre
@@ -47,12 +54,12 @@ namespace Persistencia.Services
     public class GestionarAnimalsService : BaseService, IGestionarAnimalsService
     {
         private const string PREFIX_TAULA_ANIMALS = "ani";
-        private const string PREFIX_TAULA_ATENCIO = "";
+        private const string PREFIX_TAULA_ATENCIO = "ate";
+        private readonly IAdministrarTreballadorsService administrarTreballadorsService;
 
-
-        public GestionarAnimalsService(IServerConnection connexio, IInterpretORM interpretORM) : base(connexio, interpretORM)
+        public GestionarAnimalsService(IAdministrarTreballadorsService administrarTreballadorsService, IServerConnection connexio, IInterpretORM interpretORM) : base(connexio, interpretORM)
         {
-
+            this.administrarTreballadorsService = administrarTreballadorsService;
         }
 
         private IEnumerable<Animal> GetAll()
@@ -61,9 +68,18 @@ namespace Persistencia.Services
             return InterpretORM.DecodificarObjectes<Animal>(res);
         }
 
-        public void AtencioAnimal(AtencioAnimal atencioAnimal, TipusTreballador tipusTreballador)
+        public void NovaAtencioAnimal(AtencioAnimal atencioAnimal, Treballador treballador)
         {
-            throw new NotImplementedException();
+            if (treballador.TipusTreballador == TipusTreballador.Veterinari || treballador.TipusTreballador == TipusTreballador.Auxiliar)
+            {
+                //atencioAnimal.Motiu = treballador.Nom + " " + treballador.Cognoms + " (" + treballador.TipusTreballador.ToString() + ") -" + atencioAnimal.Motiu;
+                var commands = InterpretORM.CodificarInsert(atencioAnimal);
+                Connexio.SendRequest(GetNomComanda(TipusOperacio.Insert, PREFIX_TAULA_ATENCIO) + commands);
+            }
+            else
+            {
+                throw new Exceptions.PersistenciaDadesNoValidesException("Aquesta acció només la poden fer un Veterinari o un Auxiliar");
+            }
         }
 
         public Animal Crea(Animal animal)
@@ -102,6 +118,33 @@ namespace Persistencia.Services
         {
             var comanda = InterpretORM.CodificarUpdate(animal, nameof(animal.IdZona));
             Connexio.SendRequest(GetNomComanda(TipusOperacio.Update, PREFIX_TAULA_ANIMALS) + comanda);
+        }
+
+        public IList<AtencioAnimal> LlistarAtencionsAnimal(Animal animal)
+        {
+            //no funciona la funcio de seleccionar animal per id d'animal, així que hem de buscar sobre tota la taula
+            var rawRes = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_ATENCIO) + "x");
+            var res = InterpretORM.DecodificarObjectes<AtencioAnimal>(rawRes).ToList();
+
+            for (int i = res.Count - 1; i >= 0; i--)
+            {
+                if (animal.Id != res[i].Animal)
+                {
+                    res.RemoveAt(i);
+                }
+            }
+
+            //ordenem per data
+            res = res.OrderByDescending(f => f.Data).ToList();
+
+            //fem un join
+            var treballadors = administrarTreballadorsService.GetAll();
+            foreach (var atencio in res)
+            {
+                atencio.Treballador = treballadors.Single(f => f.Id == atencio.IdTreballador);
+            }
+
+            return res;
         }
     }
 }

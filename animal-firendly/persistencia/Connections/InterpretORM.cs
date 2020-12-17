@@ -80,7 +80,15 @@ namespace Persistencia.Connections
                     continue;
 
                 Type t = Nullable.GetUnderlyingType(prop.InfoPropietat.PropertyType) ?? prop.InfoPropietat.PropertyType;
-                object valorSegur = (camp.Value == null) ? null : Convert.ChangeType(camp.Value, t);
+                object valorSegur = null;
+                if (t == typeof(bool))
+                {
+                    valorSegur = camp.Value == "v" ? true : false;
+                }
+                else
+                {
+                    valorSegur = (camp.Value == null) ? null : Convert.ChangeType(camp.Value, t);
+                }
 
                 prop.InfoPropietat.SetValue(objecte, valorSegur);
             }
