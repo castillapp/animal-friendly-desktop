@@ -19,6 +19,7 @@ namespace DesktopApp.ViewModels
         private VisitesListViewModel visitesListViewModel;
         private TipusOperacio tipusAccioModificacio;
         private Treballador treballador;
+        private Animal animal;
 
         public ICommand AccioModificacio { get; }
 
@@ -28,17 +29,21 @@ namespace DesktopApp.ViewModels
             set { tipusAccioModificacio = value; OnPropertyChanged(nameof(TipusAccioModificacio)); }
         }
 
+        public DateTime Data { get { return visita.Data; } set { visita.Data = value; } }
+        public string Motiu { get { return visita.Motiu; } set { visita.Motiu = value; } }
+
         public VisitaFitxaViewModel(IGestionarAnimalsService gestionarAnimalsService, INavigator navigator)
         {
             this.gestionarAnimalsService = gestionarAnimalsService;
             this.navigator = navigator;
             AccioModificacio = new AccioModificacioModelCommand<VisitaFitxaViewModel>(this);
         }
-        public void ObreFitxa(VisitesListViewModel visitesListViewModel, AtencioAnimal visita, Treballador treballador, TipusOperacio modificacio)
+        public void ObreFitxa(VisitesListViewModel visitesListViewModel, AtencioAnimal visita, Animal animal, Treballador treballador, TipusOperacio modificacio)
         {
             this.visitesListViewModel = visitesListViewModel;
             this.visita = visita;
             this.TipusAccioModificacio = modificacio;
+            this.animal = animal;
             this.treballador = treballador;
         }
 
@@ -48,6 +53,7 @@ namespace DesktopApp.ViewModels
             switch (TipusAccioModificacio)
             {
                 case TipusOperacio.Crea:
+                    visita.Animal = animal.Id;
                     gestionarAnimalsService.NovaAtencioAnimal(visita, treballador);
                     break;
                 case TipusOperacio.Modifica:

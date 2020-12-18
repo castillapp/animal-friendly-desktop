@@ -25,7 +25,7 @@ namespace Persistencia.Models
         [ModelProperty(2, "data")]
         public DateTime Data { get; set; }
 
-        [ModelProperty(3, "motiu ")]
+        [ModelProperty(3, "motiu")]
         public string Motiu { get; set; }
 
         public Treballador Treballador { get; set; }

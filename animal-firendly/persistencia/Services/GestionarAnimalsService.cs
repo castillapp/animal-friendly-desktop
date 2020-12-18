@@ -76,6 +76,7 @@ namespace Persistencia.Services
         {
             if (treballador.TipusTreballador == TipusTreballador.Veterinari || treballador.TipusTreballador == TipusTreballador.Auxiliar)
             {
+                atencioAnimal.IdTreballador = treballador.Id;
                 //atencioAnimal.Motiu = treballador.Nom + " " + treballador.Cognoms + " (" + treballador.TipusTreballador.ToString() + ") -" + atencioAnimal.Motiu;
                 var commands = InterpretORM.CodificarInsert(atencioAnimal);
                 Connexio.SendRequest(GetNomComanda(TipusOperacio.Insert, PREFIX_TAULA_ATENCIO) + commands);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.Linq;
+using System.Globalization;
 
 namespace Persistencia.Connections
 {
@@ -99,6 +100,8 @@ namespace Persistencia.Connections
         private IEnumerable<KeyValuePair<string, string>> DividirCampsObjecte(string missatge)
         {
             var resultats = System.Text.RegularExpressions.Regex.Match(missatge, @"(?<=\[)(.*?)(?=\])").Value;
+            if (String.IsNullOrWhiteSpace(resultats))
+                return new List<KeyValuePair<string, string>>();
             var llistatCamps = resultats.Substring(1, resultats.Length - 2);
             var camps = System.Text.RegularExpressions.Regex.Split(llistatCamps, @"""\s*,\s*""").Select(f =>
                 {
@@ -118,7 +121,15 @@ namespace Persistencia.Connections
                 //mirem si el valor es null/default
                 if (columnaProp.InfoPropietat.GetValue(model) != GetDefaultValue(columnaProp.InfoPropietat.PropertyType))
                 {
-                    raw += columnaProp.InfoPropietat.GetValue(model).ToString();
+                    if(columnaProp.InfoPropietat.PropertyType == typeof(DateTime))
+                    {
+                        raw += ((DateTime)columnaProp.InfoPropietat.GetValue(model))
+                            .ToString("dd/M/yyyy", CultureInfo.InvariantCulture);
+                    }
+                    else
+                    {
+                        raw += columnaProp.InfoPropietat.GetValue(model).ToString();
+                    }
                 }
                 raw += ":";
             }

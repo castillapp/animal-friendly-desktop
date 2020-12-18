@@ -1,4 +1,5 @@
 ﻿using DesktopApp.ConstantsData;
+using DesktopApp.Commands;
 using DesktopApp.State.Navigators;
 using DesktopApp.ViewModels.Factories;
 using Persistencia.Models;
@@ -43,6 +44,7 @@ namespace DesktopApp.ViewModels
             this.gestionarAnimalsService = gestionarAnimalsService;
             this.visitaFitxaViewModelFactory = visitaFitxaViewModelFactory;
             this.navigator = navigator;
+            AccioModificacio = new AccioModificacioModelCommand<VisitesListViewModel>(this);
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace DesktopApp.ViewModels
                     break;
                 case TipusOperacio.Crea:
                     var visitaFitxa = this.visitaFitxaViewModelFactory.CreateViewModel();
-                    visitaFitxa.ObreFitxa(this, new AtencioAnimal(), treballador, tipusOperacio);
+                    visitaFitxa.ObreFitxa(this, new AtencioAnimal(), animal, treballador, tipusOperacio);
                     navigator.CurrentViewModel = visitaFitxa;
                     break;
                 default:

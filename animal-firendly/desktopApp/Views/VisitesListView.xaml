@@ -32,9 +32,6 @@
             <Button Grid.Column="2" Content="Tornar" Margin="5 0"
                 Command="{Binding AccioModificacio}"
                 CommandParameter="{x:Static constData:TipusOperacio.Cancela}"/>
-            <Button Grid.Column="3" Content="Afegeix" Margin="5 0"
-                Command="{Binding AccioModificacio}"
-                CommandParameter="{x:Static constData:TipusOperacio.Crea}"/>
         </Grid>
         <DataGrid Grid.Row="2"
                   AutoGenerateColumns="False"
