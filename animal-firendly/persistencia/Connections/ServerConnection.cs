@@ -6,6 +6,8 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Persistencia.Connections
 {
@@ -38,10 +40,6 @@ namespace Persistencia.Connections
         /// <returns>Resposta del servidor en text pla (raw), asíncron</returns>
         Task<string> SendRequestAsync(string message);
 
-        /// <summary>
-        /// Avança el lector una linia. Fet per solucionar alguns bugs del server quan ens torna més d'una linia per comanda;
-        /// </summary>
-        void LectorAvancaLinia();
     }
 
     public class ServerConnection : IServerConnection
@@ -51,6 +49,7 @@ namespace Persistencia.Connections
         private TcpClient client;
         private StreamReader reader;
         private Stream stream;
+        private SslStream sslStream;
 
         public ServerConnection(string ipServidor, int portServidor)
         {
@@ -71,6 +70,39 @@ namespace Persistencia.Connections
             {
                 throw;
             }
+        }
+
+        private void ConnectWithSsl()
+        {
+            try
+            {
+                client = new TcpClient(ipServidor, portServidor);
+                sslStream = new SslStream(client.GetStream(), false,
+                    new RemoteCertificateValidationCallback(ValidateServerCertificate), null);
+                sslStream.AuthenticateAsClient(ipServidor);
+
+                stream = client.GetStream();
+                reader = new StreamReader(stream);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="certificate"></param>
+        /// <param name="chain"></param>
+        /// <param name="sslPolicyErrors"></param>
+        /// <returns></returns>
+        private static bool ValidateServerCertificate(object sender, X509Certificate certificate,
+            X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
         }
 
         public async Task<string> SendRequestAsync(string message)
@@ -122,14 +154,13 @@ namespace Persistencia.Connections
             {
                 Disconnect();
             }
+            if(sslStream != null)
+            {
+                sslStream.Dispose();
+            }
             reader.Dispose();
             stream.Dispose();
             client.Dispose();
-        }
-
-        public void LectorAvancaLinia()
-        {
-           reader.ReadLine();           
         }
     }
 }

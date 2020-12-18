@@ -47,7 +47,6 @@ namespace DesktopApp
             ).As<Persistencia.Connections.IServerConnection>().SingleInstance();
 
             //Serveis
-            //builder.RegisterType<LoginService>().As<ILoginService>().SingleInstance();
             builder.RegisterType<AppServices.LoginService>().As<ILoginService>().SingleInstance();
             builder.RegisterType<AppServices.AdministrarTreballadorsService>().As<IAdministrarTreballadorsService>().SingleInstance();
             builder.RegisterType<AppServices.AdministrarCentreService>().As<IAdministrarCentreService>().SingleInstance();

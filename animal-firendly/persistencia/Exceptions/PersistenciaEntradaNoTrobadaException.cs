@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Persistencia.Exceptions
 {
+    /// <summary>
+    /// Error si no es troba una entrada en la persistència
+    /// </summary>
     public class PersistenciaEntradaNoTrobadaException : PersistenciaBaseException
     {
         public PersistenciaEntradaNoTrobadaException()

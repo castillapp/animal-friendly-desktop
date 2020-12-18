@@ -49,6 +49,12 @@ namespace Persistencia.Services
         /// <param name="centre">Centre del qual es volen llistar els animals</param>
         /// <returns>Llista dels animals del centre</returns>
         IEnumerable<Animal> LlistaAnimalsCentre(TipusCentre centre);
+
+        /// <summary>
+        /// Llista tots els animals
+        /// </summary>
+        /// <returns>animals</returns>
+        IEnumerable<Animal> GetAll();
     }
 
     public class GestionarAnimalsService : BaseService, IGestionarAnimalsService
@@ -64,12 +70,6 @@ namespace Persistencia.Services
         {
             this.administrarTreballadorsService = administrarTreballadorsService;
             this.administrarCentreService = administrarCentreService;
-        }
-
-        private IEnumerable<Animal> GetAll()
-        {
-            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_ANIMALS) + "x");
-            return InterpretORM.DecodificarObjectes<Animal>(res);
         }
 
         public void NovaAtencioAnimal(AtencioAnimal atencioAnimal, Treballador treballador)
@@ -165,6 +165,12 @@ namespace Persistencia.Services
             }
 
             return res;
+        }
+
+        public IEnumerable<Animal> GetAll()
+        {
+            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_ANIMALS) + "x");
+            return InterpretORM.DecodificarObjectes<Animal>(res);
         }
     }
 }

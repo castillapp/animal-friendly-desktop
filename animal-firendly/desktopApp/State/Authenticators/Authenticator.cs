@@ -119,6 +119,7 @@ namespace DesktopApp.State.Authenticators
         public void Logout()
         {
             loginService.Logout();
+            currentUsuari = null;
         }
     }
 }

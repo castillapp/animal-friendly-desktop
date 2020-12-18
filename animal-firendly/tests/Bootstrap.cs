@@ -5,8 +5,9 @@ using DesktopApp.ViewModels;
 using DesktopApp.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Text;
-using AppServices = MockPersistencia.Services;
+using AppServices = Persistencia.Services;
 using ServicesInterfaces = Persistencia.Services;
 
 namespace DesktopAppTests
@@ -24,24 +25,36 @@ namespace DesktopAppTests
         {
             var builder = new ContainerBuilder();
 
-            //Serveis Mock
-            builder.RegisterType<AppServices.LoginService>().AsSelf().As<ServicesInterfaces.ILoginService>().SingleInstance();
-            builder.RegisterType<AppServices.AdministrarTreballadorsService>().As<ServicesInterfaces.IAdministrarTreballadorsService>().SingleInstance();
+            //Connexio
+            builder.RegisterType<Persistencia.Connections.InterpretORM>().As<Persistencia.Connections.IInterpretORM>().InstancePerLifetimeScope();
+            builder.Register(f =>
+            {
+                var ip = "192.168.2.151";
+                int port = 9900;
+                var res = new Persistencia.Connections.ServerConnection(ip, port);
+                return res;
+            }).As<Persistencia.Connections.IServerConnection>().InstancePerLifetimeScope();
+
+            //Serveis
+            builder.RegisterType<AppServices.LoginService>().AsSelf().As<ServicesInterfaces.ILoginService>().InstancePerLifetimeScope();
+            builder.RegisterType<AppServices.AdministrarTreballadorsService>().As<ServicesInterfaces.IAdministrarTreballadorsService>().InstancePerLifetimeScope();
+            builder.RegisterType<AppServices.AdministrarCentreService>().As<ServicesInterfaces.IAdministrarCentreService>().InstancePerLifetimeScope();
+            builder.RegisterType<AppServices.GestionarAnimalsService>().As<ServicesInterfaces.IGestionarAnimalsService>().InstancePerLifetimeScope();
 
             //Components
             builder.RegisterType<Authenticator>().As<IAuthenticator>().InstancePerLifetimeScope();
             builder.RegisterType<Navigator>().As<INavigator>().InstancePerLifetimeScope();
 
             //Factories i ViewModel
-            builder.RegisterType<RootViewModelFactory>().As<IRootViewModelFactory>().SingleInstance();
+            builder.RegisterType<RootViewModelFactory>().As<IRootViewModelFactory>().InstancePerLifetimeScope();
 
-            builder.RegisterType<UsuariWelcomeViewModelFactory>().As<IViewModelFactory<UsuariWelcomeViewModel>>().SingleInstance();
+            builder.RegisterType<UsuariWelcomeViewModelFactory>().As<IViewModelFactory<UsuariWelcomeViewModel>>().InstancePerLifetimeScope();
             builder.Register<LoginViewModelFactory>(f =>
                 new LoginViewModelFactory(f.Resolve<IAuthenticator>(),
                 new ViewModelFactoryRenavigator<UsuariWelcomeViewModel>(f.Resolve<INavigator>(), f.Resolve<IViewModelFactory<UsuariWelcomeViewModel>>()))
-            ).As<IViewModelFactory<LoginViewModel>>();
-            builder.RegisterType<TreballadorsListViewModelFactory>().As<IViewModelFactory<TreballadorsListViewModel>>().SingleInstance();
-            builder.RegisterType<TreballadorFitxaViewModelFactory>().As<IViewModelFactory<TreballadorFitxaViewModel>>().SingleInstance();
+            ).As<IViewModelFactory<LoginViewModel>>().InstancePerLifetimeScope();
+            builder.RegisterType<TreballadorsListViewModelFactory>().As<IViewModelFactory<TreballadorsListViewModel>>().InstancePerLifetimeScope();
+            builder.RegisterType<TreballadorFitxaViewModelFactory>().As<IViewModelFactory<TreballadorFitxaViewModel>>().InstancePerLifetimeScope();
 
             //Main ViewModel
             builder.RegisterType<MainViewModel>().AsSelf().InstancePerLifetimeScope();
@@ -49,29 +62,51 @@ namespace DesktopAppTests
             container = builder.Build();
         }
 
-        public static IAuthenticator GetAuthenticator()
+        public static ILifetimeScope GetLifetimeScope()
         {
-            return container.Resolve<IAuthenticator>();
+            return container.BeginLifetimeScope();
         }
 
-        public static ServicesInterfaces.IAdministrarTreballadorsService GetAdministrarTreballadorsService()
+        public static IAuthenticator GetAuthenticator(ILifetimeScope scope, string usuari, string pass)
         {
-            return container.Resolve<ServicesInterfaces.IAdministrarTreballadorsService>();
+            var res = scope.Resolve<IAuthenticator>();
+            res.Login(usuari, pass);
+            return res;
         }
 
-        public static AppServices.LoginService GetLoginService()
+        public static IAuthenticator GetAuthenticator(ILifetimeScope scope)
         {
-            return container.Resolve<AppServices.LoginService>();
+            return scope.Resolve<IAuthenticator>();
         }
 
-        public static TreballadorsListViewModel GetTreballadorsListViewModel()
+        public static ServicesInterfaces.IAdministrarTreballadorsService GetAdministrarTreballadorsService(ILifetimeScope scope)
         {
-            return container.Resolve<IViewModelFactory<TreballadorsListViewModel>>().CreateViewModel();
+            return scope.Resolve<ServicesInterfaces.IAdministrarTreballadorsService>();
         }
 
-        public static TreballadorFitxaViewModel GetTreballadorFitxaViewModel()
+        public static ServicesInterfaces.IAdministrarCentreService GetAdministrarCentreService(ILifetimeScope scope)
         {
-            return container.Resolve<IViewModelFactory<TreballadorFitxaViewModel>>().CreateViewModel();
+            return scope.Resolve<ServicesInterfaces.IAdministrarCentreService>();
+        }
+
+        public static ServicesInterfaces.IGestionarAnimalsService GetGestionarAnimalsService(ILifetimeScope scope)
+        {
+            return scope.Resolve<ServicesInterfaces.IGestionarAnimalsService>();
+        }
+
+        public static AppServices.LoginService GetLoginService(ILifetimeScope scope)
+        {
+            return scope.Resolve<AppServices.LoginService>();
+        }
+
+        public static TreballadorsListViewModel GetTreballadorsListViewModel(ILifetimeScope scope)
+        {
+            return scope.Resolve<IViewModelFactory<TreballadorsListViewModel>>().CreateViewModel();
+        }
+
+        public static TreballadorFitxaViewModel GetTreballadorFitxaViewModel(ILifetimeScope scope)
+        {
+            return scope.Resolve<IViewModelFactory<TreballadorFitxaViewModel>>().CreateViewModel();
         }
     }
 }

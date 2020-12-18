@@ -34,6 +34,12 @@ namespace Persistencia.Services
         /// </summary>
         /// <param name="zona">zona a actualitzar</param>
         void ActualitzaZona(Zona zona);
+
+        /// <summary>
+        /// Llista totes les zones disponibles
+        /// </summary>
+        /// <returns>llista de zones</returns>
+        IEnumerable<Zona> GetAllZones();
     }
 
     public class AdministrarCentreService : BaseService, IAdministrarCentreService
@@ -50,7 +56,6 @@ namespace Persistencia.Services
         {
             var commands = InterpretORM.CodificarUpdate(zona);
             ExecutaFullUpdate(commands, PREFIX_TAULA_ZONES);
-            Connexio.LectorAvancaLinia();
         }
 
         public Zona CreaZona(Zona zona)
@@ -73,16 +78,17 @@ namespace Persistencia.Services
             return zona;
         }
 
-        private IEnumerable<Zona> GetAllZones()
-        {
-            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_ZONES) + "x");
-            return InterpretORM.DecodificarObjectes<Zona>(res);
-        }
 
         public IEnumerable<Centre> GetAll()
         {
             var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_CENTRE) + "x");
             return InterpretORM.DecodificarObjectes<Centre>(res);
+        }
+
+        public IEnumerable<Zona> GetAllZones()
+        {
+            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_ZONES) + "x");
+            return InterpretORM.DecodificarObjectes<Zona>(res);
         }
 
         public IEnumerable<Zona> GetZonesCentre(TipusCentre centre)

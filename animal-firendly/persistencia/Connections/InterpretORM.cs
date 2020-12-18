@@ -52,8 +52,20 @@ namespace Persistencia.Connections
         string CodificarUpdate<Model>(Model model, string propietat) where Model : IBaseModel, new();
     }
 
-    public class InterpretORM : IInterpretORM //where Model : IBaseModel, new()
+
+    /// <summary>
+    /// Converteix els missatges de la bbdd en objectes i viceversa.
+    /// Utilitza les metadades de les propietats especificades mitjançant ModelPropertyAttribute
+    /// </summary>
+    public class InterpretORM : IInterpretORM
     {
+
+        /// <summary>
+        /// Decodifica un missatge en una llista d'objectes
+        /// </summary>
+        /// <typeparam name="Model">Classe d'objecte a d'escodificar</typeparam>
+        /// <param name="message">Missatge en brut del serivdor</param>
+        /// <returns>Llista dels objectes</returns>
         public IEnumerable<Model> DecodificarObjectes<Model>(string message) where Model : IBaseModel, new()
         {
             var objectes = new List<Model>();
@@ -111,6 +123,12 @@ namespace Persistencia.Connections
             return camps;
         }
 
+        /// <summary>
+        /// Obté les instruccions / missatge en brut per enviar al servidor per insertar un nou element
+        /// </summary>
+        /// <typeparam name="Model">Tipus d'objecte de l'element</typeparam>
+        /// <param name="model">objecte a insertar</param>
+        /// <returns>insruccions en brut</returns>
         public string CodificarInsert<Model>(Model model) where Model : IBaseModel, new()
         {
             string raw = String.Empty;
@@ -136,6 +154,12 @@ namespace Persistencia.Connections
             return raw.Substring(0, raw.Length - 1);
         }
 
+        /// <summary>
+        /// Retorna una llista de les instruccions necessàries per executar per modificar un objecte
+        /// </summary>
+        /// <typeparam name="Model">Tipus d'objecte</typeparam>
+        /// <param name="model">l'objecte a actualitzar</param>
+        /// <returns>Conjutn d'instruccions en brut</returns>
         public IEnumerable<string> CodificarUpdate<Model>(Model model) where Model : IBaseModel, new()
         {
             List<string> raws = new List<string>();
@@ -163,12 +187,25 @@ namespace Persistencia.Connections
             return raws;
         }
 
+        /// <summary>
+        /// Obté la clau primària d'un objecte
+        /// </summary>
+        /// <typeparam name="Model">Tipus d'objecte de l'element</typeparam>
+        /// <param name="model">objecte</param>
+        /// <returns>clau primaria</returns>
         public int GetPrimaryKey<Model>(Model model) where Model : IBaseModel
         {
             var modelIntern = model as BaseModel;
             return (int)modelIntern.MetadadesModel.ClauPrimaria.InfoPropietat.GetValue(model);
         }
 
+        /// <summary>
+        /// Codifica una sola instruccio per actualitzar la propietat d'un objecte
+        /// </summary>
+        /// <typeparam name="Model">Tipus d'objecte de l'element</typeparam>
+        /// <param name="model">objecte a actualitzar</param>
+        /// <param name="propietat">nom de la propietat a actualitzar</param>
+        /// <returns>La instrucció per actualitzar només aquella propietat</returns>
         public string CodificarUpdate<Model>(Model model, string propietat) where Model : IBaseModel, new()
         {
             var modelIntern = model as BaseModel;
@@ -179,6 +216,12 @@ namespace Persistencia.Connections
             return raw;
         }
 
+        /// <summary>
+        /// Retorna el valor per defecte d'una propietat.
+        /// Ex: string = null, int = 0, etc...
+        /// </summary>
+        /// <param name="t">tipus</param>
+        /// <returns>valor per defecte</returns>
         object GetDefaultValue(Type t)
         {
             if (t.IsValueType)

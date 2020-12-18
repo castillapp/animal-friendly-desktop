@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Persistencia.Exceptions
 {
+    /// <summary>
+    /// Error en la persistència si les dades no son correctes
+    /// </summary>
     public class PersistenciaDadesNoValidesException : PersistenciaBaseException
     {
         public PersistenciaDadesNoValidesException()

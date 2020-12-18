@@ -15,6 +15,11 @@ namespace Persistencia.Services
         /// <returns>llistat de treballadors</returns>
         IEnumerable<Treballador> GetAll();
 
+        /// <summary>
+        /// Obté un treballador
+        /// </summary>
+        /// <param name="dni">DNI del treballador</param>
+        /// <returns>treballador</returns>
         Treballador GetTreballador(string dni);
 
         /// <summary>
