@@ -40,27 +40,32 @@ namespace DesktopApp.ViewModels
             get { return animal.Nom; }
             set { animal.Nom = value; }
         }
-        public string Raca
-        {
-            get { return animal.Raca; }
-            set { animal.Raca = value; }
-        }
+        //public string Raca
+        //{
+        //    get { return animal.Raca; }
+        //    set { animal.Raca = value; }
+        //}
         public string DataNaixement
         {
             get { return animal.DataNaixement; }
             set { animal.DataNaixement = value; }
         }
-        public string DataArribada
-        {
-            get { return animal.DataArribada; }
-            set { animal.DataArribada = value; }
-        }
+        //public string DataArribada
+        //{
+        //    get { return animal.DataArribada; }
+        //    set { animal.DataArribada = value; }
+        //}
         public string DataAcollida
         {
             get { return animal.DataAcollida; }
             set { animal.DataAcollida = value; }
         }
-        public TipusCentre Centre
+        public int IdCentre
+        {
+            get { return animal.IdCentre; }
+            set { animal.IdCentre = value; }
+        }
+        public TipusCentre TipusCentre
         {
             get { return animal.TipusCentre; }
             set { animal.TipusCentre = value; }

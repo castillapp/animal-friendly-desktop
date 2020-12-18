@@ -15,9 +15,9 @@ namespace Persistencia.Models
         public int NumColumnaDB { get; }
         public bool PrimaryKey { get; }
         public string ColumName { get; set; }
-        public int NumColumnaDbUpdate
+        public int? NumColumnaDbUpdate
         {
-            get { return numColumnaDbUpdate == null ? NumColumnaDB : numColumnaDbUpdate.Value; }
+            get { return numColumnaDbUpdate; }
             set
             {
                 numColumnaDbUpdate = value;
@@ -26,19 +26,35 @@ namespace Persistencia.Models
 
         private int? numColumnaDbUpdate = null;
 
+        /// <summary>
+        /// Especifica metadades per a l'interpret ORM
+        /// </summary>
+        /// <param name="numColumnaDB">numero de columna per a insert i update</param>
+        /// <param name="columName">nom columna</param>
+        /// <param name="isPrimaryKey">es la clau primaria</param>
         public ModelPropertyAttribute(int numColumnaDB, string columName, bool isPrimaryKey = false)
         {
             this.NumColumnaDB = numColumnaDB;
             this.PrimaryKey = isPrimaryKey;
             this.ColumName = columName;
+            this.numColumnaDbUpdate = numColumnaDB;
         }
 
+        /// <summary>
+        /// Especifica metadades per a l'interpret ORM
+        /// </summary>
+        /// <param name="numColumnaDB">numero de columna per a insert</param>
+        /// <param name="columName">nom columna</param>
+        /// <param name="numColumnUpdate">numero de columna per a l'update. Si es <0 no es fa update</param>
         public ModelPropertyAttribute(int numColumnaDB, string columName, int numColumnUpdate)
         {
             this.NumColumnaDB = numColumnaDB;
             this.PrimaryKey = false;
             this.ColumName = columName;
-            this.numColumnaDbUpdate = numColumnUpdate;
+            if (numColumnUpdate < 0)
+                this.numColumnaDbUpdate = null;
+            else
+                this.numColumnaDbUpdate = numColumnUpdate;
         }
     }
 }

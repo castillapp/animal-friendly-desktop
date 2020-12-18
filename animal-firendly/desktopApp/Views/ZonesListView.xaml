@@ -23,15 +23,41 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="4" Content="Modifica" Margin="5 0"
+            <Button Grid.Column="5" Content="Modifica" Margin="5 0"
                 Command="{Binding AccioModificacio}"
-                CommandParameter="{x:Static constData:TipusOperacio.Modifica}"/>
-            <Button Grid.Column="3" Content="Afegeix" Margin="5 0"
+                CommandParameter="{x:Static constData:TipusOperacio.Modifica}">
+                <Button.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource LlistatZona}"/>
+                </Button.Resources>
+            </Button>
+            <Button Grid.Column="4" Content="Afegeix" Margin="5 0"
                 Command="{Binding AccioModificacio}"
-                CommandParameter="{x:Static constData:TipusOperacio.Crea}"/>
-            <Button Grid.Column="2" Content="Visualitza" Margin="5 0"
+                CommandParameter="{x:Static constData:TipusOperacio.Crea}">
+                <Button.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource LlistatZona}"/>
+                </Button.Resources>
+            </Button>
+            <Button Grid.Column="3" Content="Visualitza" Margin="5 0"
                 Command="{Binding AccioModificacio}"
-                CommandParameter="{x:Static constData:TipusOperacio.Llegeix}"/>
+                CommandParameter="{x:Static constData:TipusOperacio.Llegeix}">
+                <Button.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource LlistatZona}"/>
+                </Button.Resources>
+            </Button>
+            <Button Grid.Column="2" Content="Tornar" Margin="5 0"
+                Command="{Binding AccioModificacio}"
+                CommandParameter="{x:Static constData:TipusOperacio.Cancela}">
+                <Button.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource LlistaZonaTriar}"/>
+                </Button.Resources>
+            </Button>
+            <Button Grid.Column="1" Content="Mou a Zona Seleccionada" Margin="5 0"
+                Command="{Binding AccioModificacio}"
+                CommandParameter="{x:Static constData:TipusOperacio.Accepta}">
+                <Button.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource LlistaZonaTriar}"/>
+                </Button.Resources>
+            </Button>
         </Grid>
         <DataGrid Grid.Row="2"
                   AutoGenerateColumns="False"

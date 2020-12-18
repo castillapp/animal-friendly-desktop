@@ -28,8 +28,9 @@ namespace Persistencia.Connections
         /// Envia un missatge al servidor i rep la seva resposta (raw)
         /// </summary>
         /// <param name="message">Missatge/comanda de text que s'envia al servidor</param>
+        /// <param name="checkOperacio">Comprova que la linia que es llegeix pertanyia a la comanda especificada, sino, avança linies fins trobar-ho</param>
         /// <returns>Resposta del servidor en text pla (raw)</returns>
-        string SendRequest(string message);
+        string SendRequest(string message, string checkOperacio = null);
         /// <summary>
         /// Métode asíncron per enviar un missatge al servidor i rebre la seva resposta (raw)
         /// </summary>
@@ -86,13 +87,21 @@ namespace Persistencia.Connections
             }
         }
 
-        public string SendRequest(string message)
+        public string SendRequest(string message, string checkOperacio = null)
         {
             try
             {
                 byte[] data = Encoding.UTF8.GetBytes(message + "\n");
                 stream.Write(data, 0, data.Length);
-                return reader.ReadLine();
+                var res = reader.ReadLine();
+                if(checkOperacio != null)
+                {
+                    while (!res.Contains(checkOperacio))
+                    {
+                        res = reader.ReadLine();
+                    }
+                }
+                return res;
             }
             catch (Exception)
             {

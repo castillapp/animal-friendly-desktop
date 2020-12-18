@@ -35,7 +35,7 @@ namespace Persistencia.Models
             foreach (var propietat in propietats)
             {
                 var infoPropietat = new InformacioPropietat(propietat);
-                metadadesPropietats.Insert(infoPropietat.MetadadesPropietat.NumColumnaDB, infoPropietat);
+                metadadesPropietats.Add(infoPropietat);
                 indexNomPropietats.Add(infoPropietat.InfoPropietat.Name, infoPropietat);
                 indexNomColumnesDB.Add(infoPropietat.MetadadesPropietat.ColumName, infoPropietat);
 
@@ -43,7 +43,7 @@ namespace Persistencia.Models
                     PrimeraColumnaDb = infoPropietat;
             }
 
-            MetadadesPropietats = metadadesPropietats;
+            MetadadesPropietats = metadadesPropietats.OrderBy(f=> f.MetadadesPropietat.NumColumnaDB).ToList();
             ClauPrimaria = MetadadesPropietats.Single(f => f.MetadadesPropietat.PrimaryKey == true);
         }
 

@@ -13,6 +13,7 @@ namespace DesktopApp.ViewModels.Factories
         private readonly IAdministrarTreballadorsService treballadorsService;
         private readonly IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory;
         private readonly IViewModelFactory<VisitesListViewModel> visitesListVewModelFactory;
+        private readonly IViewModelFactory<ZonesListViewModel> zonesListModelFactory;
         private readonly INavigator navigator;
         private readonly IAuthenticator authenticator;
 
@@ -20,6 +21,7 @@ namespace DesktopApp.ViewModels.Factories
             IAdministrarTreballadorsService treballadorsService,
             IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory,
             IViewModelFactory<VisitesListViewModel> visitesListVewModelFactory,
+            IViewModelFactory<ZonesListViewModel> zonesListModelFactory,
             INavigator navigator,
             IAuthenticator authenticator)
         {
@@ -27,13 +29,16 @@ namespace DesktopApp.ViewModels.Factories
             this.treballadorsService = treballadorsService;
             this.animalFitxaViewModelFactory = animalFitxaViewModelFactory;
             this.visitesListVewModelFactory = visitesListVewModelFactory;
+            this.zonesListModelFactory = zonesListModelFactory;
             this.navigator = navigator;
             this.authenticator = authenticator;
         }
 
         public AnimalsListViewModel CreateViewModel()
         {
-            return new AnimalsListViewModel(gestionarAnimalsService, treballadorsService, animalFitxaViewModelFactory, visitesListVewModelFactory, navigator, authenticator);
+            return new AnimalsListViewModel(gestionarAnimalsService, treballadorsService,
+                animalFitxaViewModelFactory, visitesListVewModelFactory, zonesListModelFactory,
+                navigator, authenticator);
         }
     }
 }

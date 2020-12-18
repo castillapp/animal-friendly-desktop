@@ -83,7 +83,7 @@ namespace Persistencia.Connections
                 object valorSegur = null;
                 if (t == typeof(bool))
                 {
-                    valorSegur = camp.Value == "v" ? true : false;
+                    valorSegur = camp.Value == "t" ? true : false;
                 }
                 else
                 {
@@ -134,6 +134,8 @@ namespace Persistencia.Connections
             {
                 if (prop.MetadadesPropietat.PrimaryKey)
                     continue;
+                if (prop.MetadadesPropietat.NumColumnaDbUpdate == null)
+                    continue;
                 var raw = prop.MetadadesPropietat.NumColumnaDbUpdate.ToString() + ":";
 
                 //mirem si el valor es null/default
@@ -160,7 +162,7 @@ namespace Persistencia.Connections
         {
             var modelIntern = model as BaseModel;
             var prop = modelIntern.MetadadesModel.MetadadesPropietats.Single(f => f.InfoPropietat.Name == propietat);
-            var raw = prop.MetadadesPropietat.NumColumnaDB.ToString() + ":"
+            var raw = prop.MetadadesPropietat.NumColumnaDbUpdate.ToString() + ":"
                 + prop.InfoPropietat.GetValue(model).ToString() + ":"
                 + modelIntern.MetadadesModel.ClauPrimaria.InfoPropietat.GetValue(model).ToString();
             return raw;

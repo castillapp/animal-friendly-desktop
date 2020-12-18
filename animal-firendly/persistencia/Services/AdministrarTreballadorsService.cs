@@ -85,7 +85,7 @@ namespace Persistencia.Services
 
         public Treballador GetTreballador(string dni)
         {
-            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_TREBALLADORS) + dni);
+            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_TREBALLADORS) + dni, "SELECT TREBALLADOR");
             var treballadors = InterpretORM.DecodificarObjectes<Treballador>(res);
             return treballadors.Single();
         }

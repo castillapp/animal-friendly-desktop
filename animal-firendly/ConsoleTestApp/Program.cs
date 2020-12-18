@@ -64,7 +64,7 @@ namespace ConsoleTestApp
                 stream.Write(data, 0, data.Length);
                 var a = reader.ReadLine();
 
-                data = Encoding.UTF8.GetBytes("selate:x\n");
+                data = Encoding.UTF8.GetBytes("updani:9:2:101\n");
                 stream.Write(data, 0, data.Length);
 
                 var res = reader.ReadLine();

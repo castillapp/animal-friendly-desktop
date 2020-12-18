@@ -56,10 +56,14 @@ namespace Persistencia.Services
         private const string PREFIX_TAULA_ANIMALS = "ani";
         private const string PREFIX_TAULA_ATENCIO = "ate";
         private readonly IAdministrarTreballadorsService administrarTreballadorsService;
+        private readonly IAdministrarCentreService administrarCentreService;
 
-        public GestionarAnimalsService(IAdministrarTreballadorsService administrarTreballadorsService, IServerConnection connexio, IInterpretORM interpretORM) : base(connexio, interpretORM)
+        public GestionarAnimalsService(IAdministrarTreballadorsService administrarTreballadorsService, 
+            IAdministrarCentreService administrarCentreService, 
+            IServerConnection connexio, IInterpretORM interpretORM) : base(connexio, interpretORM)
         {
             this.administrarTreballadorsService = administrarTreballadorsService;
+            this.administrarCentreService = administrarCentreService;
         }
 
         private IEnumerable<Animal> GetAll()
@@ -90,32 +94,47 @@ namespace Persistencia.Services
 
             animal.Id = nouId;
 
+            //l'assignem a una nova zona del centre per garantir integritat referencial
+            animal.IdZona = administrarCentreService.GetZonesCentre(animal.TipusCentre).First().Id;
+
             var commands = InterpretORM.CodificarInsert(animal);
             Connexio.SendRequest(GetNomComanda(TipusOperacio.Insert, PREFIX_TAULA_ANIMALS) + commands);
-
-            //animals = GetAll();
-
-            //nouId = GetLastId(animals);
-
-            //return animals.Single(f => f.Id == nouId);
 
             return animal;
         }
 
         public IEnumerable<Animal> LlistaAnimalsCentre(TipusCentre centre)
         {
-            var res = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_ANIMALS) + Centre.ConvertTipusCentre(centre));
-            return InterpretORM.DecodificarObjectes<Animal>(res);
+            var rawAnimal = Connexio.SendRequest(GetNomComanda(TipusOperacio.Select, PREFIX_TAULA_ANIMALS) + Centre.ConvertTipusCentre(centre));
+            var animals = InterpretORM.DecodificarObjectes<Animal>(rawAnimal);
+
+            //fem un join per conseguir la zona on está l'animal
+            var zones = administrarCentreService.GetZonesCentre(centre);
+            foreach (var animal in animals)
+            {
+                animal.Zona = zones.Single(f => f.Id == animal.IdZona);
+            }
+
+            return animals;
         }
 
         public void Modifica(Animal animal)
         {
+            //mirem si l'animal ha canviat de centre, si ha canviat, li assignarem una zona d'aquell centre perque
+            //forçar la integritat referencial de les dades
+            var animalVell = GetAll().Single(f => f.Id == animal.Id);
+            if (animalVell.IdCentre != animal.IdCentre)
+            {
+                animal.IdZona = administrarCentreService.GetZonesCentre(animal.TipusCentre).First().Id;
+            }
+
             var commands = InterpretORM.CodificarUpdate(animal);
             ExecutaFullUpdate(commands, PREFIX_TAULA_ANIMALS);
         }
 
         public void MouAnimal(Animal animal, Zona zona)
         {
+            animal.IdZona = zona.Id;
             var comanda = InterpretORM.CodificarUpdate(animal, nameof(animal.IdZona));
             Connexio.SendRequest(GetNomComanda(TipusOperacio.Update, PREFIX_TAULA_ANIMALS) + comanda);
         }

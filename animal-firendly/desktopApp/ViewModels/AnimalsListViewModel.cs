@@ -20,6 +20,7 @@ namespace DesktopApp.ViewModels
         private readonly IAdministrarTreballadorsService treballadorsService;
         private readonly IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory;
         private readonly IViewModelFactory<VisitesListViewModel> visitesListVewModelFactory;
+        private readonly IViewModelFactory<ZonesListViewModel> zonesListModelFactory;
         private readonly INavigator navigator;
         private readonly IAuthenticator authenticator;
         private Treballador treballador;
@@ -51,6 +52,7 @@ namespace DesktopApp.ViewModels
             IAdministrarTreballadorsService treballadorsService,
             IViewModelFactory<AnimalFitxaViewModel> animalFitxaViewModelFactory,
             IViewModelFactory<VisitesListViewModel> visitesListVewModelFactory,
+            IViewModelFactory<ZonesListViewModel> zonesListModelFactory,
             INavigator navigator,
             IAuthenticator authenticator)
         {
@@ -58,6 +60,7 @@ namespace DesktopApp.ViewModels
             this.treballadorsService = treballadorsService;
             this.animalFitxaViewModelFactory = animalFitxaViewModelFactory;
             this.visitesListVewModelFactory = visitesListVewModelFactory;
+            this.zonesListModelFactory = zonesListModelFactory;
             this.navigator = navigator;
             this.authenticator = authenticator;
             Carregar();
@@ -85,6 +88,9 @@ namespace DesktopApp.ViewModels
                     navigator.CurrentViewModel = animalViewModel;
                     break;
                 case TipusOperacio.AnimalMoureAZona:
+                    var zonesList = zonesListModelFactory.CreateViewModel();
+                    zonesList.Carregar(new Centre() { Id = AnimalSeleccionat.IdCentre }, AnimalSeleccionat, this);
+                    navigator.CurrentViewModel = zonesList;
                     break;
                 case TipusOperacio.AnimalLlistarAtencions:
                     if (AnimalSeleccionat == null)

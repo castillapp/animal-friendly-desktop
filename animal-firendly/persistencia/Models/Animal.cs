@@ -16,9 +16,9 @@ namespace Persistencia.Models
         bool TeXip { get; set; }
         string NumXip { get; set; }
         string Nom { get; set; }
-        string Raca { get; set; }
+        //string Raca { get; set; }
         string DataNaixement { get; set; }
-        string DataArribada { get; set; }
+        //string DataArribada { get; set; }
         string DataAcollida { get; set; }
         int IdTipusAnimal { get; set; }
         int IdCentre { get; set; }
@@ -36,34 +36,35 @@ namespace Persistencia.Models
         [ModelProperty(0, "id_animal", true)]
         public int Id { get; set; }
 
-        [ModelProperty(1, "te_chip")]
+        [ModelProperty(1, "te_chip", 2)]
         public bool TeXip { get; set; }
 
-        [ModelProperty(2, "num_chip")]
+        [ModelProperty(2, "num_chip", 3)]
         public string NumXip { get; set; }
 
-        [ModelProperty(3, "nom")]
+        [ModelProperty(3, "nom", 4)]
         public string Nom { get; set; }
 
-        [ModelProperty(4, "raca")]
-        public string Raca { get; set; }
-
-        [ModelProperty(5, "data_naix")]
+        //no es pot fer update, bug de la bbdd
+        [ModelProperty(4, "raca", -1)]
+        public string Raca { get; set; } = "";
+        //no es pot fer update, bug de la bbdd
+        [ModelProperty(5, "data_naix", -1)]
         public string DataNaixement { get; set; }
-
-        [ModelProperty(6, "data_arribada")]
-        public string DataArribada { get; set; }
-
-        [ModelProperty(7, "datqa_acollida")]
+        //no es pot fer update, bug de la bbdd
+        [ModelProperty(6, "data_arribada", -1)]
+        public string DataArribada { get; set; } = "";
+        //no es pot fer update, bug de la bbdd
+        [ModelProperty(7, "datqa_acollida", -1)]
         public string DataAcollida { get; set; }
 
-        [ModelProperty(8, "t_animal")]
+        [ModelProperty(8, "t_animal", 9)]
         public int IdTipusAnimal { get; set; }
 
-        [ModelProperty(9, "id_centre")]
+        [ModelProperty(9, "id_cen", 10)]
         public int IdCentre { get; set; }
 
-        [ModelProperty(10, "id_zona")]
+        [ModelProperty(10, "id_zon", 11)]
         public int IdZona { get; set; }
 
         public TipusAnimal TipusAnimal
@@ -74,7 +75,7 @@ namespace Persistencia.Models
             }
             set
             {
-                IdTipusAnimal = (int)TipusAnimal;
+                IdTipusAnimal = (int)value;
             }
         }
         public TipusCentre TipusCentre
@@ -88,6 +89,8 @@ namespace Persistencia.Models
                 IdCentre = (int)value;
             }
         }
+
+        public Zona Zona { get; set; }
 
         public string NomTipusAnimal { get { return TipusAnimal.ToString(); } }
 

@@ -38,6 +38,9 @@
             <Button Grid.Column="2" Content="Visualitza visites" Margin="5 0"
                 Command="{Binding AccioModificacio}"
                 CommandParameter="{x:Static constData:TipusOperacio.AnimalLlistarAtencions}"/>
+            <Button Grid.Column="3" Content="Mou a altra zona" Margin="5 0"
+                Command="{Binding AccioModificacio}"
+                CommandParameter="{x:Static constData:TipusOperacio.AnimalMoureAZona}"/>
         </Grid>
         <DataGrid Grid.Row="2"
                   AutoGenerateColumns="False"
@@ -49,9 +52,10 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Nom}" Header="Nom" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding NomTipusAnimal}" Header="Tipus Animal" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding Raca}" Header="Raça" IsReadOnly="True"/>
+                <!--<DataGridTextColumn Binding="{Binding Raca}" Header="Raça" IsReadOnly="True"/>-->
                 <DataGridTextColumn Binding="{Binding DataNaixement}" Header="Naixement" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding NomTipusCentre}" Header="Centre" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Zona.Nom}" Header="Zona" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
